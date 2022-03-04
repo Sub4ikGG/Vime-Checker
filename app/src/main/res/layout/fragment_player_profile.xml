@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".view.PlayerProfileFragment" android:background="#424242">
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/progressBar2"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/white"
+            android:visibility="gone"/>
+    <TextView
+            android:text="Игрок или гильдия не найдены"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/error_textView"
+            android:layout_gravity="center|center_horizontal" android:textSize="24sp" android:visibility="gone"
+            android:textColor="#FFFFFF" android:fontFamily="@font/minecraft" android:gravity="center"/>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:fillViewport="true"
+            android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#424242" android:visibility="visible" android:id="@+id/main_layout"
+        >
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/friends_box_layout"
+                    app:layout_constraintBottom_toBottomOf="@+id/friends_box_layout" android:layout_marginEnd="8dp"
+                    android:id="@+id/buttons_linear_layout">
+                <androidx.appcompat.widget.AppCompatButton
+                        android:text="Полная статистика"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/fullStat_button"
+                        android:background="@drawable/box" style="@style/text"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="12sp"/>
+                <androidx.appcompat.widget.AppCompatButton
+                        android:text="Гильдия"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/guild_button"
+                        android:background="@drawable/box" style="@style/text"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        android:layout_marginBottom="8dp" android:textSize="12sp"/>
+                <androidx.appcompat.widget.AppCompatButton
+                        android:text="Достижения"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/achievements_button"
+                        android:background="@drawable/box"
+                        style="@style/text" android:textSize="12sp"/>
+            </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/box" android:id="@+id/main_box_layout"
+                    android:isScrollContainer="false" android:overScrollMode="never">
+
+                <TextView
+                        android:text="TeTTJIo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/nickname_textView"
+                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toEndOf="@+id/avatar_cardView"
+                        app:layout_constraintTop_toTopOf="@+id/avatar_cardView" android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"/>
+                <TextView
+                        android:text="[Online]"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/online_textView"
+                        android:fontFamily="@font/minecraft" android:textColor="#5CD15F"
+                        android:textSize="17sp"
+                        app:layout_constraintEnd_toEndOf="@+id/level_textView"
+                        app:layout_constraintTop_toBottomOf="@+id/level_textView" android:layout_marginTop="4dp"/>
+                <TextView
+                        android:text="2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" android:id="@+id/level_textView"
+                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
+                        android:textSize="17sp"
+                        android:gravity="end"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="4dp" android:layout_marginEnd="4dp"/>
+                <TextView
+                        android:text="Находится в лобби"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/status_textView"
+                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/avatar_cardView"
+                        app:layout_constraintStart_toEndOf="@+id/avatar_cardView" android:layout_marginStart="8dp"
+                        android:layout_marginBottom="4dp"/>
+                <TextView
+                        android:text="Player"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/rank_textView"
+                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/nickname_textView"
+                        app:layout_constraintTop_toBottomOf="@+id/nickname_textView" android:layout_marginTop="4dp"/>
+                <androidx.cardview.widget.CardView
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:id="@+id/avatar_cardView"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintVertical_bias="0.0"
+                >
+                    <ImageView
+                            android:src="@drawable/steve"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/avatar_imageView"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintVertical_bias="0.0"
+                    />
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="162dp"
+                    android:layout_height="265dp"
+                    app:layout_constraintTop_toBottomOf="@+id/main_box_layout"
+                    app:layout_constraintEnd_toEndOf="parent" android:background="@drawable/box"
+                    android:layout_marginTop="8dp" android:id="@+id/friends_box_layout">
+
+                <TextView
+                        android:text="Друзья"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/friends_textView"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="4dp"
+                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF" android:textSize="15sp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp" app:layout_constraintTop_toBottomOf="@+id/friends_textView"
+                        app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                        android:layout_marginStart="4dp" android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:id="@+id/friendsRcView"
+                />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintEnd_toStartOf="@+id/friends_box_layout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/friends_box_layout" android:layout_marginEnd="8dp"
+                    android:background="@drawable/box" android:id="@+id/lastGames_box_layout"
+                    app:layout_constraintBottom_toTopOf="@+id/buttons_linear_layout" android:layout_marginBottom="8dp">
+
+                <TextView
+                        android:text="Последние игры"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/lastGames_textView"
+                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="4dp" android:textSize="15sp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintTop_toBottomOf="@+id/lastGames_textView"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp" android:layout_marginEnd="4dp"
+                        android:layout_marginStart="4dp" tools:itemCount="3" tools:listitem="@layout/lastgame_item"
+                        android:background="@drawable/box" android:id="@+id/lastGames_rcView"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp" android:name="com.example.vimechecker.view.MainFragment"
+                    android:id="@+id/frameLayout_playerProfile"
+                    app:layout_constraintTop_toBottomOf="@+id/buttons_linear_layout"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:id="@+id/token_layout" android:visibility="gone">
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:id="@+id/logo_cardView"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/token_inputLayout" app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="6dp">
+            <ImageView
+                    android:src="@drawable/anonymous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/logo_imageViewC"/>
+        </androidx.cardview.widget.CardView>
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" app:hintTextColor="#FFFFFF"
+                android:textColorHint="#FFFFFF" android:backgroundTint="#FFFFFF" android:backgroundTintMode="src_atop"
+                app:placeholderTextColor="#FFFFFF" android:id="@+id/token_inputLayout"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Токен авторизации"
+                    android:backgroundTintMode="src_atop" android:lines="1" android:maxLines="1"
+                    android:textColor="#FFFFFF" android:textColorHint="#FFFFFF" android:fontFamily="@font/minecraft"
+                    android:inputType="text" android:id="@+id/token_inputEditText"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
