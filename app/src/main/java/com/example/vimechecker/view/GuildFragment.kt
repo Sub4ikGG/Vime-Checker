@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.vimechecker.R
 import com.example.vimechecker.databinding.FragmentGuildBinding
+import com.example.vimechecker.view.recyclerview.GuildMemberAdapter
 
 class GuildFragment : Fragment() {
     lateinit var binding: FragmentGuildBinding
-    private var adapter = GuildMembersAdapter()
+    private var adapter = GuildMemberAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
