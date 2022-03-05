@@ -9,7 +9,7 @@
     <TextView
             android:text="TeTTJIo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/name_textView"
+            android:layout_height="wrap_content" android:id="@+id/nickname_textView"
             android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
             android:textSize="17sp"
             app:layout_constraintStart_toEndOf="@+id/avatar_cardView"
@@ -44,7 +44,7 @@
     <TextView
             android:text="Player"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/tag_textView"
+            android:layout_height="wrap_content" android:id="@+id/rank_textView"
             android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/name_textView"
