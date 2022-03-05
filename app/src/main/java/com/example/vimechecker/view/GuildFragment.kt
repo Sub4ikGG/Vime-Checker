@@ -5,17 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.vimechecker.R
+import com.example.vimechecker.data.repository.Repository
 import com.example.vimechecker.databinding.FragmentGuildBinding
 import com.example.vimechecker.view.recyclerview.GuildMemberAdapter
 
 class GuildFragment : Fragment() {
     lateinit var binding: FragmentGuildBinding
-    private var adapter = GuildMemberAdapter()
+    private lateinit var adapter: GuildMemberAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        adapter = GuildMemberAdapter(this)
     }
 
     override fun onCreateView(
@@ -31,6 +34,11 @@ class GuildFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        runLogic()
+    }
+
+    private fun runLogic() {
+
     }
 
     private fun setupRecyclerView() {
@@ -40,7 +48,11 @@ class GuildFragment : Fragment() {
     }
 
     companion object {
+        private const val GUILDNAME = "guildname"
+
         @JvmStatic
-        fun newInstance() = GuildFragment()
+        fun newInstance(guildName: String) = GuildFragment().apply {
+            arguments = bundleOf(GUILDNAME to guildName)
+        }
     }
 }

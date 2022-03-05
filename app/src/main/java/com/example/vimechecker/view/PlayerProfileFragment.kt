@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.core.view.setPadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -37,6 +36,8 @@ class PlayerProfileFragment : Fragment() {
     private lateinit var friendsAdapter: FriendsAdapter
     private var lastGamesAdapter = LastGamesAdapter()
     private var viewCreated = false
+
+    private var guildName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val viewModelFactory = PlayerProfileViewModelFactory()
@@ -113,6 +114,11 @@ class PlayerProfileFragment : Fragment() {
             fullStatButton.setOnClickListener {
                 findNavController().navigate(R.id.guildFragment)
             }
+
+            guildButton.setOnClickListener {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout_playerProfile, GuildFragment.newInstance(guildName))
+            }
         }
     }
 
@@ -176,6 +182,9 @@ class PlayerProfileFragment : Fragment() {
         if(model.guild == null) {
             binding.guildButton.isEnabled = false
             binding.guildButton.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.grey))
+        }
+        else {
+            guildName = model.guild.name
         }
 
         loadAvatar(model.username)
