@@ -54,7 +54,7 @@ class PlayerProfileFragment : Fragment() {
     ): View {
         binding = FragmentPlayerProfileBinding.inflate(layoutInflater)
         binding.mainLayout.visibility = View.INVISIBLE
-        sharedPref = activity!!.getPreferences(Context.MODE_PRIVATE)
+        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         return binding.root
     }
 
@@ -163,8 +163,8 @@ class PlayerProfileFragment : Fragment() {
 
     private fun updateUI(m: PlayerOnline) {
         val model = m[0]
-        val onlineColor = if(!model.online.value) ContextCompat.getColor(activity!!.applicationContext, R.color.grey)
-        else ContextCompat.getColor(activity!!.applicationContext, R.color.green)
+        val onlineColor = if(!model.online.value) ContextCompat.getColor(requireActivity().applicationContext, R.color.grey)
+        else ContextCompat.getColor(requireActivity().applicationContext, R.color.green)
 
         binding.nicknameTextView.text = model.username
         binding.levelTextView.text = model.level.toString()
@@ -175,7 +175,7 @@ class PlayerProfileFragment : Fragment() {
 
         if(model.guild == null) {
             binding.guildButton.isEnabled = false
-            binding.guildButton.setTextColor(ContextCompat.getColor(activity!!.applicationContext, R.color.grey))
+            binding.guildButton.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.grey))
         }
 
         loadAvatar(model.username)

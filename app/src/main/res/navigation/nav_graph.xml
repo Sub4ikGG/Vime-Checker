@@ -6,9 +6,14 @@
 
     <fragment android:id="@+id/mainFragment" android:name="com.example.vimechecker.view.MainFragment"
               android:label="fragment_main" tools:layout="@layout/fragment_main">
-        <action android:id="@+id/action_mainFragment_to_findSomethingFragment"
-                app:destination="@id/findSomethingFragment" app:popUpToInclusive="false"
-        />
+        <action
+            android:id="@+id/action_mainFragment_to_findSomethingFragment"
+            app:destination="@id/findSomethingFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="false" />
         <action android:id="@+id/action_mainFragment_to_playerProfileFragment2"
                 app:destination="@id/playerProfileFragment" app:popUpToInclusive="false"
         />
@@ -17,8 +22,13 @@
               android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile">
         <action android:id="@+id/action_playerProfileFragment_to_guildFragment" app:destination="@id/guildFragment"
                 app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"/>
-        <action android:id="@+id/action_playerProfileFragment_to_playerProfileFragment22"
-                app:destination="@id/playerProfileFragment2"/>
+        <action
+            android:id="@+id/action_playerProfileFragment_to_playerProfileFragment22"
+            app:destination="@id/playerProfileFragment2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment android:id="@+id/playerProfileFragment2" android:name="com.example.vimechecker.view.PlayerProfileFragment"
               android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile">

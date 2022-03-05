@@ -5,9 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.vimechecker.R
+import com.example.vimechecker.databinding.FragmentGuildBinding
 
 class GuildFragment : Fragment() {
+    lateinit var binding: FragmentGuildBinding
+    private var adapter = GuildMembersAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -17,7 +22,20 @@ class GuildFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_guild, container, false)
+        binding = FragmentGuildBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupRecyclerView()
+    }
+
+    private fun setupRecyclerView() {
+        val layoutManager = GridLayoutManager(context, 3, GridLayoutManager.HORIZONTAL, false)
+        binding.membersRcVIew.adapter = adapter
+        binding.membersRcVIew.layoutManager = layoutManager
     }
 
     companion object {
