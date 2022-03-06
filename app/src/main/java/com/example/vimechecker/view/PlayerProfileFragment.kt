@@ -112,12 +112,12 @@ class PlayerProfileFragment : Fragment() {
             }
 
             fullStatButton.setOnClickListener {
-                findNavController().navigate(R.id.guildFragment)
             }
 
             guildButton.setOnClickListener {
                 childFragmentManager.beginTransaction()
                     .replace(R.id.frameLayout_playerProfile, GuildFragment.newInstance(guildName))
+                    .commit()
             }
         }
     }

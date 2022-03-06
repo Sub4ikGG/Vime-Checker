@@ -20,8 +20,6 @@
     </fragment>
     <fragment android:id="@+id/playerProfileFragment" android:name="com.example.vimechecker.view.PlayerProfileFragment"
               android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile">
-        <action android:id="@+id/action_playerProfileFragment_to_guildFragment" app:destination="@id/guildFragment"
-                app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"/>
         <action
             android:id="@+id/action_playerProfileFragment_to_playerProfileFragment22"
             app:destination="@id/playerProfileFragment2"
@@ -31,11 +29,7 @@
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment android:id="@+id/playerProfileFragment2" android:name="com.example.vimechecker.view.PlayerProfileFragment"
-              android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile">
-        <action android:id="@+id/action_playerProfileFragment2_to_guildFragment" app:destination="@id/guildFragment"/>
-    </fragment>
+              android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile"/>
     <fragment android:id="@+id/findSomethingFragment" android:name="com.example.vimechecker.view.FindSomethingFragment"
               android:label="fragment_find_player" tools:layout="@layout/fragment_find_player"/>
-    <fragment android:id="@+id/guildFragment" android:name="com.example.vimechecker.view.GuildFragment"
-              android:label="fragment_guild" tools:layout="@layout/fragment_guild"/>
 </navigation>

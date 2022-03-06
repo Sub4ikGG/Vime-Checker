@@ -1,6 +1,6 @@
 package com.example.vimechecker.model.guild
 
-data class Guild(
+data class GuildModel(
     val avatar_url: String,
     val color: String,
     val created: Int,

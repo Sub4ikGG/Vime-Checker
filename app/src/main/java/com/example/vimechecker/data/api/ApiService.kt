@@ -1,6 +1,7 @@
 package com.example.vimechecker.data.api
 
 import com.example.vimechecker.model.admin.AdminModel
+import com.example.vimechecker.model.guild.GuildModel
 import com.example.vimechecker.model.lastgame.LastGamesModel
 import com.example.vimechecker.model.player.PlayerModel
 import com.example.vimechecker.model.playerFriends.PlayerFriends
@@ -10,6 +11,7 @@ import com.example.vimechecker.model.token.TokenModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -30,6 +32,9 @@ interface ApiService {
 
     @GET("user/{id}/matches")
     suspend fun getPlayerMatches(@Path("id") id: Int): Response<LastGamesModel>
+
+    @GET("guild/get")
+    suspend fun getGuild(@Query("name") guild: String): Response<GuildModel>
 
     @GET("online?token=DraM4mXciEuCBeELX8cF8RuOCrOJHaW")
     suspend fun getProjectOnline(): Response<OnlineModel>

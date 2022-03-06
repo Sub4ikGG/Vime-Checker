@@ -8,16 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.vimechecker.R
 import com.example.vimechecker.databinding.FriendItemBinding
+import com.example.vimechecker.model.guild.Member
 import com.example.vimechecker.model.playerFriends.Friend
 
 class GuildMemberAdapter(private val fragment: Fragment): RecyclerView.Adapter<GuildMemberAdapter.MemberHolder>() {
-    private var memberList = emptyList<Friend>()
+    private var memberList = emptyList<Member>()
 
     class MemberHolder(view: View): RecyclerView.ViewHolder(view) {
         private val binding = FriendItemBinding.bind(view)
-        fun bind(friend: Friend, fragment: Fragment) {
+        fun bind(member: Member, fragment: Fragment) {
             Glide.with(fragment)
-                .load("https://skin.vimeworld.ru/helm/${friend.username}.png")
+                .load("https://skin.vimeworld.ru/helm/${member.user.username}.png")
                 .centerCrop()
                 .placeholder(R.drawable.steve)
                 .into(binding.avatar)
@@ -35,5 +36,9 @@ class GuildMemberAdapter(private val fragment: Fragment): RecyclerView.Adapter<G
 
     override fun getItemCount(): Int {
         return memberList.size
+    }
+
+    fun updateInfo(list: List<Member>) {
+        memberList = list
     }
 }
