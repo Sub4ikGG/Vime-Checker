@@ -32,6 +32,10 @@ class Repository {
         return RetrofitInstance.API.getPlayerMatches(id)
     }
 
+    suspend fun getGuild(guild: String): Response<GuildModel> {
+        return RetrofitInstance.API.getGuild(guild)
+    }
+
     suspend fun getAdmins(): Response<AdminModel> {
         return RetrofitInstance.API.getAdmins()
     }
