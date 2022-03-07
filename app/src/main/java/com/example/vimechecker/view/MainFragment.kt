@@ -97,12 +97,15 @@ class MainFragment : Fragment() {
     }
 
     private fun updateUI(model: OnlineModel) {
-        val text = "Всего игроков: ${model.total}"
-        binding.allOnlineTextView.text = text
-        adapter.setupOnline(sortListPairDesc(model.separated.toList()))
+        println(model)
+        if(model.separated != null && model != null) {
+            val text = "Всего игроков: ${model.total}"
+            binding.allOnlineTextView.text = text
+            adapter.setupOnline(sortListPairDesc(model.separated.toList()))
 
-        binding.mainLayout.visibility = View.VISIBLE
-        binding.progressBar.visibility = View.GONE
+            binding.mainLayout.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.GONE
+        }
     }
 
     private fun sortListPairDesc(list: List<Pair<String, Int>>): List<Pair<String, Int>> {

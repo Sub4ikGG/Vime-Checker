@@ -185,13 +185,18 @@
                         android:layout_marginStart="4dp" tools:itemCount="3" tools:listitem="@layout/lastgame_item"
                         android:background="@drawable/box" android:id="@+id/lastGames_rcView"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="0dp" android:name="com.example.vimechecker.view.MainFragment"
-                    android:id="@+id/frameLayout_playerProfile"
-                    app:layout_constraintTop_toBottomOf="@+id/buttons_linear_layout"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                android:id="@+id/frameLayout_playerProfile"
+                android:name="com.example.vimechecker.view.MainFragment"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttons_linear_layout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <androidx.constraintlayout.widget.ConstraintLayout

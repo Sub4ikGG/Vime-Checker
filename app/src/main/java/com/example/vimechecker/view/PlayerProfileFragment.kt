@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.core.view.setPadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -38,6 +37,8 @@ class PlayerProfileFragment : Fragment() {
     private var lastGamesAdapter = LastGamesAdapter()
     private var viewCreated = false
 
+    private var guildName = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val viewModelFactory = PlayerProfileViewModelFactory()
         viewCreated = false
@@ -53,8 +54,10 @@ class PlayerProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlayerProfileBinding.inflate(layoutInflater)
-        binding.mainLayout.visibility = View.INVISIBLE
-        sharedPref = activity!!.getPreferences(Context.MODE_PRIVATE)
+
+        showProgressBar()
+
+        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         return binding.root
     }
 
@@ -111,7 +114,13 @@ class PlayerProfileFragment : Fragment() {
             }
 
             fullStatButton.setOnClickListener {
-                findNavController().navigate(R.id.guildFragment)
+                //findNavController().navigate(R.id.guildFragment)
+            }
+
+            guildButton.setOnClickListener {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout_playerProfile, GuildFragment.newInstance(guildName))
+                    .commit()
             }
         }
     }
@@ -152,6 +161,7 @@ class PlayerProfileFragment : Fragment() {
             it?.body()?.let {
                 lastGamesAdapter.updateInfo(it.matches)
                 setupRecyclerView()
+                hideProgressBar()
             }
         }
     }
@@ -163,8 +173,8 @@ class PlayerProfileFragment : Fragment() {
 
     private fun updateUI(m: PlayerOnline) {
         val model = m[0]
-        val onlineColor = if(!model.online.value) ContextCompat.getColor(activity!!.applicationContext, R.color.grey)
-        else ContextCompat.getColor(activity!!.applicationContext, R.color.green)
+        val onlineColor = if(!model.online.value) ContextCompat.getColor(requireActivity().applicationContext, R.color.grey)
+        else ContextCompat.getColor(requireActivity().applicationContext, R.color.green)
 
         binding.nicknameTextView.text = model.username
         binding.levelTextView.text = model.level.toString()
@@ -175,11 +185,13 @@ class PlayerProfileFragment : Fragment() {
 
         if(model.guild == null) {
             binding.guildButton.isEnabled = false
-            binding.guildButton.setTextColor(ContextCompat.getColor(activity!!.applicationContext, R.color.grey))
+            binding.guildButton.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.grey))
+        }
+        else {
+            guildName = model.guild.name
         }
 
         loadAvatar(model.username)
-        binding.mainLayout.visibility = View.VISIBLE
     }
 
     private fun setupRecyclerView() {
@@ -190,8 +202,6 @@ class PlayerProfileFragment : Fragment() {
         val layoutManager2 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.lastGamesRcView.adapter = lastGamesAdapter
         binding.lastGamesRcView.layoutManager = layoutManager2
-
-        hideProgressBar()
     }
 
     private fun loadAvatar(username: String) {
@@ -203,11 +213,16 @@ class PlayerProfileFragment : Fragment() {
     }
 
     private fun showProgressBar() {
+        binding.mainLayout.visibility = View.INVISIBLE
         binding.progressBar2.visibility = View.VISIBLE
     }
 
     private fun hideProgressBar() {
-        binding.progressBar2.visibility = View.GONE
+        scope.launch(Dispatchers.Main) {
+            delay(200)
+            binding.mainLayout.visibility = View.VISIBLE
+            binding.progressBar2.visibility = View.GONE
+        }
     }
 
     private fun Toast(text: String) {

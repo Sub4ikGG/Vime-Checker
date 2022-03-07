@@ -2,6 +2,7 @@ package com.example.vimechecker.data.repository
 
 import com.example.vimechecker.data.api.RetrofitInstance
 import com.example.vimechecker.model.admin.AdminModel
+import com.example.vimechecker.model.guild.GuildModel
 import com.example.vimechecker.model.lastgame.LastGamesModel
 import com.example.vimechecker.model.player.PlayerModel
 import com.example.vimechecker.model.playerFriends.PlayerFriends
@@ -37,5 +38,9 @@ class Repository {
 
     suspend fun getOnline(): Response<OnlineModel> {
         return RetrofitInstance.API.getProjectOnline()
+    }
+
+    suspend fun getGuild(guild: String): Response<GuildModel> {
+        return RetrofitInstance.API.getGuild(guild)
     }
 }
