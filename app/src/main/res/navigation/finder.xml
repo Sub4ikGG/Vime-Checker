@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/finder"
+            app:startDestination="@id/findSomethingFragment2">
+
+    <fragment android:id="@+id/findSomethingFragment2" android:name="com.example.vimechecker.view.FindSomethingFragment"
+              android:label="fragment_find_player" tools:layout="@layout/fragment_find_player">
+        <action android:id="@+id/action_findSomethingFragment2_to_playerProfileFragment"
+                app:destination="@id/playerProfileFragment4"/>
+    </fragment>
+    <fragment android:id="@+id/playerProfileFragment4" android:name="com.example.vimechecker.view.PlayerProfileFragment"
+              android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile">
+        <action android:id="@+id/action_playerProfileFragment4_self2" app:destination="@id/playerProfileFragment4"/>
+    </fragment>
+</navigation>

@@ -31,7 +31,19 @@ class FriendsAdapter(private val fragment: Fragment, val navController: NavContr
 
             binding.avatar.setOnClickListener {
                 if(friend.id != -1) {
-                    navController.navigate(R.id.playerProfileFragment2, bundleOf("nickname" to friend.username))
+                    println(navController.graph.id)
+                    try {
+                        navController.navigate(
+                            R.id.action_findSomethingFragment2_to_playerProfileFragment,
+                            bundleOf("nickname" to friend.username)
+                        )
+                    }
+                    catch (e: Exception) {
+                        navController.navigate(
+                            R.id.action_playerProfileFragment4_self,
+                            bundleOf("nickname" to friend.username)
+                        )
+                    }
                 }
             }
 

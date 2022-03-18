@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/profile"
+            app:startDestination="@id/playerProfileFragment4">
+
+    <fragment android:id="@+id/playerProfileFragment4" android:name="com.example.vimechecker.view.PlayerProfileFragment"
+              android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile">
+        <action android:id="@+id/action_playerProfileFragment4_self" app:destination="@id/playerProfileFragment4"
+                app:enterAnim="@android:anim/slide_in_left" app:exitAnim="@android:anim/slide_out_right"
+                app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+</navigation>

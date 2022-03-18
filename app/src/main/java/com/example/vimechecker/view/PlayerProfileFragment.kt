@@ -1,5 +1,6 @@
 package com.example.vimechecker.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -20,31 +21,37 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.vimechecker.R
 import com.example.vimechecker.databinding.FragmentPlayerProfileBinding
+import com.example.vimechecker.model.lastgame.LastGamesModel
+import com.example.vimechecker.model.playerFriends.Friend
+import com.example.vimechecker.model.playerFriends.PlayerFriends
 import com.example.vimechecker.model.playerOnline.PlayerOnline
 import com.example.vimechecker.view.recyclerview.FriendsAdapter
 import com.example.vimechecker.view.recyclerview.LastGamesAdapter
 import com.example.vimechecker.viewmodel.PlayerProfileViewModel
 import com.example.vimechecker.viewmodel.PlayerProfileViewModelFactory
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PlayerProfileFragment : Fragment() {
     lateinit var binding: FragmentPlayerProfileBinding
     lateinit var sharedPref: SharedPreferences
     private lateinit var viewModel: PlayerProfileViewModel
     private var scope = CoroutineScope(Dispatchers.IO + CoroutineName("API-Player"))
-    private var handler = Handler(Looper.getMainLooper())
+    //private var handler = Handler(Looper.getMainLooper())
     private lateinit var friendsAdapter: FriendsAdapter
     private var lastGamesAdapter = LastGamesAdapter()
-    private var viewCreated = false
-
     private var guildName = ""
 
+    private var requests = 0
+    private var viewCreated = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        val viewModelFactory = PlayerProfileViewModelFactory()
-        viewCreated = false
-        viewModel = ViewModelProvider(this, viewModelFactory)[PlayerProfileViewModel::class.java]
+        //val viewModelFactory = PlayerProfileViewModelFactory()
+        viewModel = ViewModelProvider(this)[PlayerProfileViewModel::class.java]
         friendsAdapter = FriendsAdapter(this, findNavController())
-        setupObservers()
+        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+
         runLogic()
         super.onCreate(savedInstanceState)
     }
@@ -56,27 +63,23 @@ class PlayerProfileFragment : Fragment() {
         binding = FragmentPlayerProfileBinding.inflate(layoutInflater)
 
         showProgressBar()
+        setupClickListeners()
 
-        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewCreated = true
 
-        setupClickListeners()
+        setupObservers()
+        viewCreated = true
     }
 
     private fun runLogic() {
         scope.launch(Dispatchers.IO) {
-            while(!viewCreated) delay(100L)
             val nick = arguments?.getString(NICKNAME, "")
-            Log.d("Test", "Запуск логики $nick")
+            Log.d("Test", "Запуск логики $nick ${this.isActive}")
             if (nick != null && nick != "") {
-                handler.postDelayed(Runnable {
-                    showProgressBar() }, 0)
-
                 if (!viewModel.getPlayerInfo(nick)) {
                     scope.launch(Dispatchers.Main) {
                         binding.errorTextView.visibility = View.VISIBLE
@@ -84,13 +87,10 @@ class PlayerProfileFragment : Fragment() {
                     }
                 }
             } else if (sharedPref.getString("TOKEN-NICKNAME", "") != "") {
-                scope.launch {
-                    handler.post { showProgressBar() }
-                    viewModel.getPlayerInfo(sharedPref.getString("TOKEN-NICKNAME", "")!!)
-                }
+                viewModel.getPlayerInfo(sharedPref.getString("TOKEN-NICKNAME", "")!!)
             } else {
-                binding.progressBar2.visibility = View.GONE
-                handler.post{
+                scope.launch(Dispatchers.Main) {
+                    binding.progressBar2.visibility = View.GONE
                     showTokenLayout(true)
                 }
             }
@@ -126,18 +126,22 @@ class PlayerProfileFragment : Fragment() {
     }
 
     private fun setupObservers() {
+        //Log.d("Test", "SetupObservers")
         viewModel.playerLiveData.observe(this) { it ->
             it.body()?.let {
+                //Log.d("Test", it.toString())
                 updateUI(it)
             }
         }
 
         viewModel.playerFriends.observe(this) {
+            //Log.d("Test", it.toString())
             friendsAdapter.updateInfo(it)
         }
 
         viewModel.tokenInfo.observe(this) { it ->
             it?.body()?.let {
+                Log.d("Test", it.toString())
                 if (it.valid && it.type == "AUTH") {
                     println("Token success!")
                     with(sharedPref.edit()) {
@@ -158,23 +162,27 @@ class PlayerProfileFragment : Fragment() {
         }
 
         viewModel.lastGamesLiveData.observe(this) { it ->
+            //Log.d("Test", it.toString())
+            if(it.headers()["X-RateLimit-Remaining"]?.toInt() != requests) {
+                requests = it.headers()["X-RateLimit-Remaining"]?.toInt()!!
+                Log.d("Test", "Осталось запросов: ${it.headers()["X-RateLimit-Remaining"]}".trim())
+            }
             it?.body()?.let {
-                lastGamesAdapter.updateInfo(it.matches)
+                it.matches?.let { it1 -> lastGamesAdapter.updateInfo(it1) }
                 setupRecyclerView()
                 hideProgressBar()
             }
         }
     }
 
-    override fun onResume() {
-        runLogic()
-        super.onResume()
-    }
-
+    @SuppressLint("SimpleDateFormat")
     private fun updateUI(m: PlayerOnline) {
         val model = m[0]
         val onlineColor = if(!model.online.value) ContextCompat.getColor(requireActivity().applicationContext, R.color.grey)
         else ContextCompat.getColor(requireActivity().applicationContext, R.color.green)
+
+        val sdf = SimpleDateFormat("MM/dd/yyyy")
+        val netDate = Date(model.lastSeen.toLong() * 1000)
 
         binding.nicknameTextView.text = model.username
         binding.levelTextView.text = model.level.toString()
@@ -219,7 +227,7 @@ class PlayerProfileFragment : Fragment() {
 
     private fun hideProgressBar() {
         scope.launch(Dispatchers.Main) {
-            delay(200)
+            delay(100)
             binding.mainLayout.visibility = View.VISIBLE
             binding.progressBar2.visibility = View.GONE
         }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/mainFragment"
+    <item android:id="@+id/main"
           android:title="Главная"
           android:icon="@drawable/ic_baseline_home_24"
     />
     
-    <item android:id="@+id/findSomethingFragment"
+    <item android:id="@+id/finder"
           android:title="Поиск"
           android:icon="@drawable/ic_baseline_search_24"
     />
@@ -16,7 +16,7 @@
           app:showAsAction="withText"
     />
 
-    <item android:id="@+id/playerProfileFragment"
+    <item android:id="@+id/profile"
           android:title="Профиль"
           android:icon="@drawable/ic_baseline_person_24"
           app:showAsAction="withText"

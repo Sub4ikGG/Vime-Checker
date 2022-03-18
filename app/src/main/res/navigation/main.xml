@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main"
+            app:startDestination="@+id/mainScreen">
+
+    <fragment android:id="@+id/mainScreen" android:name="com.example.vimechecker.view.MainFragment"
+              android:label="fragment_main" tools:layout="@layout/fragment_main">
+        <action android:id="@+id/action_mainScreen_to_playerProfileFragment3"
+                app:destination="@id/playerProfileFragment3"/>
+    </fragment>
+    <fragment android:id="@+id/playerProfileFragment3" android:name="com.example.vimechecker.view.PlayerProfileFragment"
+              android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile"/>
+</navigation>
