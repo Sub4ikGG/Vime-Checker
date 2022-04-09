@@ -16,7 +16,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-    /*private var currentFragment = 0*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,37 +28,8 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setupWithNavController(navController)
-        /*currentFragment = R.id.main
-
-        bottomNavigationView.setOnItemSelectedListener {
-            var success = false
-            when(it.itemId) {
-                R.id.main -> {
-                    success = switchFragment(R.id.main)
-                }
-                R.id.finder -> {
-                    success = switchFragment(R.id.finder)
-                }
-                R.id.profile -> {
-                    success = switchFragment(R.id.profile)
-                }
-            }
-            success
-        }*/
+        bottomNavigationView.itemIconTintList = null;
     }
-
-    /*private fun switchFragment(fragment: Int): Boolean {
-        return if(currentFragment != fragment) {
-            navController.navigate(fragment)
-            currentFragment = fragment
-            true
-        } else false
-    }*/
-
-    /*override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.fragmentContainerView)
-        return navController.navigateUp() || super.onSupportNavigateUp()
-    }*/
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()

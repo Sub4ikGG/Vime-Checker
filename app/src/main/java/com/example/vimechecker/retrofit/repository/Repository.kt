@@ -1,6 +1,9 @@
-package com.example.vimechecker.data.repository
+package com.example.vimechecker.retrofit.repository
 
-import com.example.vimechecker.data.api.RetrofitInstance
+import com.example.vimechecker.model.achievement.Achievements
+import com.example.vimechecker.model.achievement.player.PAchievement
+import com.example.vimechecker.model.achievement.player.PlayerAchievement
+import com.example.vimechecker.retrofit.api.RetrofitInstance
 import com.example.vimechecker.model.admin.AdminModel
 import com.example.vimechecker.model.guild.GuildModel
 import com.example.vimechecker.model.lastgame.LastGamesModel
@@ -42,5 +45,13 @@ class Repository {
 
     suspend fun getGuild(guild: String): Response<GuildModel> {
         return RetrofitInstance.API.getGuild(guild)
+    }
+
+    suspend fun getServerAchievements(): Response<Achievements> {
+        return RetrofitInstance.API.getServerAchievements()
+    }
+
+    suspend fun getPlayerAchievements(id: Int?): Response<PlayerAchievement> {
+        return RetrofitInstance.API.getPlayerAchievements(id)
     }
 }

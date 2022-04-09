@@ -6,6 +6,27 @@
              android:layout_height="match_parent"
              tools:context=".view.GuildFragment" android:background="#424242">
 
+    <ImageView
+        android:id="@+id/error_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_gravity="center" android:src="@drawable/error"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/error_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/minecraft"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:text="Гильдия не найдена"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@+id/avatar_cardView"
+        app:layout_constraintTop_toTopOf="@+id/avatar_cardView"/>
     <ProgressBar
         android:id="@+id/progressBar4"
         style="?android:attr/progressBarStyle"
@@ -20,7 +41,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:orientation="vertical">
+        android:layout_height="match_parent" android:orientation="vertical" android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_box_layout"

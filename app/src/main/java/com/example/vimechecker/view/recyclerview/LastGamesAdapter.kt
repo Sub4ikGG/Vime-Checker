@@ -1,14 +1,13 @@
 package com.example.vimechecker.view.recyclerview
 
-import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vimechecker.R
-import com.example.vimechecker.data.Transcriptions
+import com.example.vimechecker.retrofit.Transcriptions
 import com.example.vimechecker.databinding.LastgameItemBinding
-import com.example.vimechecker.model.lastgame.LastGamesModel
 import com.example.vimechecker.model.lastgame.Matche
 
 class LastGamesAdapter: RecyclerView.Adapter<LastGamesAdapter.LastGamesHolder>() {

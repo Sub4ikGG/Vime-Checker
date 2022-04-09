@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#424242">
+
+    <TextView
+        android:id="@+id/achievement_chapter_name"
+        style="@style/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp" android:layout_marginBottom="2dp"
+        android:background="@drawable/box" android:gravity="center"
+        android:padding="8dp"
+        android:text="Достижения: лобби" android:textSize="16sp" android:visibility="visible"/>
+    <TextView
+        android:id="@+id/achievement_name"
+        style="@style/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/achievement_avatar_cardView"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@id/achievement_avatar_cardView"
+        android:text="Название"/>
+    <TextView
+        android:id="@+id/achievement_desc_textView"
+        style="@style/text"
+        android:layout_width="325dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/achievement_name"
+        android:layout_alignStart="@id/achievement_name"
+        android:layout_marginTop="4dp"
+        android:text="Я самое крутое описание ачивки" android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/achievement_reward_textView"
+        style="@style/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/achievement_name"
+        android:layout_alignBottom="@id/achievement_avatar_cardView"
+        android:layout_marginBottom="4dp"
+        android:text="Награда: 3000 коинов" android:textSize="12sp"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/achievement_avatar_cardView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/achievement_chapter_name"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp" app:cardCornerRadius="4dp" app:cardElevation="4dp">
+        <ImageView
+            android:id="@+id/achievement_avatar_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ann"/>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

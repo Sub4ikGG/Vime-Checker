@@ -4,6 +4,11 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".view.PlayerProfileFragment" android:background="#424242">
+    <ImageView
+        android:id="@+id/error_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_gravity="center" android:src="@drawable/error"
+        android:visibility="gone"/>
     <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="100dp"
@@ -15,225 +20,252 @@
             android:indeterminateTint="@color/white"
             android:visibility="gone"/>
     <TextView
-            android:text="Игрок или гильдия не найдены"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/error_textView"
-            android:layout_gravity="center|center_horizontal" android:textSize="24sp" android:visibility="gone"
-            android:textColor="#FFFFFF" android:fontFamily="@font/minecraft" android:gravity="center"/>
+        android:id="@+id/error_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_gravity="center|center_horizontal"
+        android:fontFamily="@font/minecraft" android:gravity="center" android:text="Игрок не найден"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:visibility="gone"/>
     <ScrollView
             android:layout_width="match_parent"
             android:fillViewport="true"
             android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:background="#424242" android:visibility="visible"
+        >
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/update_button"
+                style="@style/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#424242" android:visibility="visible" android:id="@+id/main_layout"
-        >
+                android:layout_marginTop="4dp" android:background="@drawable/box"
+                android:text="Обновить"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/main_box_layout" app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/main_box_layout"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout_playerProfile"/>
             <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
+                android:id="@+id/buttons_linear_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/friends_box_layout"
+                app:layout_constraintEnd_toStartOf="@+id/friends_box_layout"
+                app:layout_constraintStart_toStartOf="parent">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fullStat_button"
+                    style="@style/text"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/friends_box_layout"
-                    app:layout_constraintBottom_toBottomOf="@+id/friends_box_layout" android:layout_marginEnd="8dp"
-                    android:id="@+id/buttons_linear_layout">
+                    android:layout_marginBottom="8dp" android:background="@drawable/box"
+                    android:text="Полная статистика"
+                    android:textSize="12sp"/>
                 <androidx.appcompat.widget.AppCompatButton
-                        android:text="Полная статистика"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/fullStat_button"
-                        android:background="@drawable/box" style="@style/text"
-                        android:layout_marginBottom="8dp"
-                        android:textSize="12sp"/>
+                    android:id="@+id/guild_button"
+                    style="@style/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" android:background="@drawable/box"
+                    android:text="Гильдия"
+                    android:textSize="12sp" app:layout_constraintHorizontal_bias="0.0"/>
                 <androidx.appcompat.widget.AppCompatButton
-                        android:text="Гильдия"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/guild_button"
-                        android:background="@drawable/box" style="@style/text"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        android:layout_marginBottom="8dp" android:textSize="12sp"/>
-                <androidx.appcompat.widget.AppCompatButton
-                        android:text="Достижения"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/achievements_button"
-                        android:background="@drawable/box"
-                        style="@style/text" android:textSize="12sp"/>
+                    android:id="@+id/achievements_button"
+                    style="@style/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/box"
+                    android:text="Достижения" android:textSize="12sp"/>
             </LinearLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                    android:background="@drawable/box" android:id="@+id/main_box_layout"
-                    android:isScrollContainer="false" android:overScrollMode="never">
+                android:id="@+id/main_box_layout"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:background="@drawable/box" android:isScrollContainer="false"
+                android:overScrollMode="never" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                        android:text="TeTTJIo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/nickname_textView"
-                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
-                        android:textSize="17sp"
-                        app:layout_constraintStart_toEndOf="@+id/avatar_cardView"
-                        app:layout_constraintTop_toTopOf="@+id/avatar_cardView" android:layout_marginStart="8dp"
-                        android:layout_marginTop="4dp"/>
+                    android:id="@+id/nickname_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp" android:fontFamily="@font/minecraft"
+                    android:text="TeTTJIo"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp" app:layout_constraintStart_toEndOf="@+id/avatar_cardView"
+                    app:layout_constraintTop_toTopOf="@+id/avatar_cardView"/>
                 <TextView
-                        android:text="[Online]"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/online_textView"
-                        android:fontFamily="@font/minecraft" android:textColor="#5CD15F"
-                        android:textSize="17sp"
-                        app:layout_constraintEnd_toEndOf="@+id/level_textView"
-                        app:layout_constraintTop_toBottomOf="@+id/level_textView" android:layout_marginTop="4dp"/>
+                    android:id="@+id/online_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginTop="4dp"
+                    android:fontFamily="@font/minecraft" android:text="[Online]"
+                    android:textColor="#5CD15F"
+                    android:textSize="17sp"
+                    app:layout_constraintEnd_toEndOf="@+id/level_textView"
+                    app:layout_constraintTop_toBottomOf="@+id/level_textView"/>
                 <TextView
-                        android:text="2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content" android:id="@+id/level_textView"
-                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
-                        android:textSize="17sp"
-                        android:gravity="end"
-                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginTop="4dp" android:layout_marginEnd="4dp"/>
+                    android:id="@+id/level_textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp" android:fontFamily="@font/minecraft"
+                    android:gravity="end"
+                    android:text="2"
+                    android:textColor="#FFFFFF" android:textSize="17sp"
+                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"/>
                 <TextView
-                        android:text="Находится в лобби"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/status_textView"
-                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/avatar_cardView"
-                        app:layout_constraintStart_toEndOf="@+id/avatar_cardView" android:layout_marginStart="8dp"
-                        android:layout_marginBottom="4dp"/>
+                    android:id="@+id/status_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginStart="8dp"
+                    android:layout_marginBottom="4dp" android:fontFamily="@font/minecraft"
+                    android:text="Находится в лобби"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp" app:layout_constraintBottom_toBottomOf="@+id/avatar_cardView"
+                    app:layout_constraintStart_toEndOf="@+id/avatar_cardView"/>
                 <TextView
-                        android:text="Player"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/rank_textView"
-                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@+id/nickname_textView"
-                        app:layout_constraintTop_toBottomOf="@+id/nickname_textView" android:layout_marginTop="4dp"/>
+                    android:id="@+id/rank_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginTop="4dp"
+                    android:fontFamily="@font/minecraft" android:text="Player"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/nickname_textView"
+                    app:layout_constraintTop_toBottomOf="@+id/nickname_textView"/>
+                <TextView
+                    android:id="@+id/lastEnter_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/minecraft"
+                    android:text="19.03.2022"
+                    android:textColor="@color/grey"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/online_textView"
+                    app:layout_constraintTop_toBottomOf="@+id/online_textView"/>
                 <androidx.cardview.widget.CardView
-                        android:layout_width="85dp"
-                        android:layout_height="85dp"
-                        android:id="@+id/avatar_cardView"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintVertical_bias="0.0"
+                    android:id="@+id/avatar_cardView"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
                 >
                     <ImageView
-                            android:src="@drawable/steve"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/avatar_imageView"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:scaleType="centerCrop"
-                            app:layout_constraintVertical_bias="0.0"
+                        android:id="@+id/avatar_imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/steve"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0"
                     />
                 </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="162dp"
-                    android:layout_height="265dp"
-                    app:layout_constraintTop_toBottomOf="@+id/main_box_layout"
-                    app:layout_constraintEnd_toEndOf="parent" android:background="@drawable/box"
-                    android:layout_marginTop="8dp" android:id="@+id/friends_box_layout">
+                android:id="@+id/friends_box_layout"
+                android:layout_width="162dp"
+                android:layout_height="265dp"
+                android:layout_marginTop="8dp" android:background="@drawable/box"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/main_box_layout">
 
                 <TextView
-                        android:text="Друзья"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/friends_textView"
-                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="4dp"
-                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF" android:textSize="15sp"/>
+                    android:id="@+id/friends_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginTop="4dp"
+                    android:fontFamily="@font/minecraft" android:text="Друзья"
+                    android:textColor="#FFFFFF" android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
                 <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp" app:layout_constraintTop_toBottomOf="@+id/friends_textView"
-                        app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
-                        android:layout_marginStart="4dp" android:layout_marginEnd="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:id="@+id/friendsRcView"
+                    android:id="@+id/friendsRcView"
+                    android:layout_width="wrap_content" android:layout_height="0dp"
+                    android:layout_marginStart="4dp" android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp" android:layout_marginBottom="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/friends_textView"
                 />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintEnd_toStartOf="@+id/friends_box_layout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/friends_box_layout" android:layout_marginEnd="8dp"
-                    android:background="@drawable/box" android:id="@+id/lastGames_box_layout"
-                    app:layout_constraintBottom_toTopOf="@+id/buttons_linear_layout" android:layout_marginBottom="8dp">
+                android:id="@+id/lastGames_box_layout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp" android:background="@drawable/box"
+                app:layout_constraintBottom_toTopOf="@+id/buttons_linear_layout"
+                app:layout_constraintEnd_toStartOf="@+id/friends_box_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/friends_box_layout">
 
                 <TextView
-                        android:text="Последние игры"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/lastGames_textView"
-                        android:fontFamily="@font/minecraft" android:textColor="#FFFFFF"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginTop="4dp" android:textSize="15sp"/>
+                    android:id="@+id/lastGames_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginTop="4dp"
+                    android:fontFamily="@font/minecraft" android:text="Последние игры"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"/>
                 <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        app:layout_constraintTop_toBottomOf="@+id/lastGames_textView"
-                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp" android:layout_marginEnd="4dp"
-                        android:layout_marginStart="4dp" tools:itemCount="3" tools:listitem="@layout/lastgame_item"
-                        android:background="@drawable/box" android:id="@+id/lastGames_rcView"/>
+                    android:id="@+id/lastGames_rcView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="4dp" android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp" android:layout_marginBottom="8dp"
+                    android:background="@drawable/box" app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lastGames_textView"
+                    tools:itemCount="3" tools:listitem="@layout/lastgame_item"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <FrameLayout
                 android:id="@+id/frameLayout_playerProfile"
                 android:name="com.example.vimechecker.view.MainFragment"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttons_linear_layout" />
+                app:layout_constraintTop_toBottomOf="@+id/buttons_linear_layout"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" android:id="@+id/token_layout" android:visibility="gone">
+        android:id="@+id/token_layout"
+        android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone">
 
         <androidx.cardview.widget.CardView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:id="@+id/logo_cardView"
-                android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/token_inputLayout" app:layout_constraintTop_toTopOf="parent"
-                app:cardCornerRadius="6dp">
+            android:id="@+id/logo_cardView"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:scaleType="centerCrop"
+            app:cardCornerRadius="6dp" app:layout_constraintBottom_toTopOf="@+id/token_inputLayout"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
             <ImageView
-                    android:src="@drawable/anonymous"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/logo_imageViewC"/>
+                android:id="@+id/logo_imageViewC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:src="@drawable/anonymous"/>
         </androidx.cardview.widget.CardView>
         <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" app:hintTextColor="#FFFFFF"
-                android:textColorHint="#FFFFFF" android:backgroundTint="#FFFFFF" android:backgroundTintMode="src_atop"
-                app:placeholderTextColor="#FFFFFF" android:id="@+id/token_inputLayout"
-                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp">
+            android:id="@+id/token_inputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" android:backgroundTint="#FFFFFF"
+            android:backgroundTintMode="src_atop" android:textColorHint="#FFFFFF" app:hintTextColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:placeholderTextColor="#FFFFFF">
 
             <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Токен авторизации"
-                    android:backgroundTintMode="src_atop" android:lines="1" android:maxLines="1"
-                    android:textColor="#FFFFFF" android:textColorHint="#FFFFFF" android:fontFamily="@font/minecraft"
-                    android:inputType="text" android:id="@+id/token_inputEditText"/>
+                android:id="@+id/token_inputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTintMode="src_atop" android:fontFamily="@font/minecraft" android:hint="Токен авторизации"
+                android:inputType="text" android:lines="1" android:maxLines="1"
+                android:textColor="#FFFFFF" android:textColorHint="#FFFFFF"/>
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -7,5 +7,5 @@ data class Guild(
     val level: Int,
     val levelPercentage: Double,
     val name: String,
-    val tag: Any
+    val tag: String?
 )

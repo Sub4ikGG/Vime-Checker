@@ -1,14 +1,14 @@
-package com.example.vimechecker.data
+package com.example.vimechecker.retrofit
 
 object Transcriptions {
-    val localeNames = mapOf("lobby" to "Lobby",
+    val localeNames = mapOf("lobby" to "Лобби",
         "luckywars" to "LuckyWars",
         "bw" to "BedWars",
         "prison" to "Prison",
         "eggwars" to "EggWars",
         "sw" to "SkyWars",
-        "murder" to "Murder Mystery",
-        "zombieclaus" to "Zombie Claus",
+        "murder" to "MurderMystery",
+        "zombieclaus" to "ZombieClaus",
         "duels" to "Duels",
         "bb" to "BuildBattle",
         "hg" to "HungerGames",
@@ -29,6 +29,9 @@ object Transcriptions {
         "teamfortress" to "TeamFortress",
         "sheep" to "Sheep",
         "paintball" to "Paintball",
-        "fallguys" to "Fall Guys"
+        "fallguys" to "Fall Guys",
+        "bwh" to "BedWarsH",
+        "global" to "Глобальные",
+        "swt" to "SkyWarsT"
     )
 }

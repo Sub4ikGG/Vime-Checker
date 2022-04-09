@@ -24,7 +24,7 @@
 
     <item android:id="@+id/playerProfileFragment2"
           android:title="Чекер"
-          android:icon="@drawable/ic_baseline_person_24"
+          android:icon="@drawable/steve"
           android:visible="false"
     />
 </menu>

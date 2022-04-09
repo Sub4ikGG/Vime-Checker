@@ -1,6 +1,7 @@
 package com.example.vimechecker.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,60 +19,61 @@ import kotlinx.coroutines.*
 import okhttp3.internal.notifyAll
 
 class AdminsListFragment : Fragment() {
-    lateinit var binding: FragmentAdminsListBinding
+    private lateinit var binding: FragmentAdminsListBinding
     private lateinit var adapter: AdminsAdapter
-    private var scope = CoroutineScope(Dispatchers.IO + CoroutineName("API-ADMINS"))
     private lateinit var viewModel: AdminsListViewModel
+
+    private var scope = CoroutineScope(Dispatchers.IO + CoroutineName("API-Admins"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this)[AdminsListViewModel::class.java]
-        setupObserver()
-        runLogic()
+        adapter = AdminsAdapter(this, findNavController())
+        if(savedInstanceState == null) runLogic()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
+
         binding = FragmentAdminsListBinding.inflate(layoutInflater)
+        setupRecyclerView()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = AdminsAdapter(this, findNavController())
-        setupRecyclerView()
         binding.progressBar3.visibility = View.GONE
+        setupObserver()
     }
 
     private fun runLogic() {
         scope.launch {
+            Log.d("Test", "Admins: запуск логики")
             viewModel.getAdmins()
         }
     }
 
     private fun setupObserver() {
-        viewModel.adminsLiveData.observe(this, Observer {
+        viewModel.adminsLiveData.observe(this) {
+            Log.d("Test", "Admins: ${it.body()?.size}")
             if(it.body()?.isNotEmpty() == true) {
                 adapter.setupList(it.body()!!)
                 adapter.notifyItemRangeChanged(0, it.body()!!.size)
-                println(adapter.itemCount)
+
+                binding.adminsListRcView.setHasFixedSize(true)
             }
-        })
+        }
     }
 
     private fun setupRecyclerView() {
-        binding.adminsListRcView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.adminsListRcView.layoutManager = layoutManager
         binding.adminsListRcView.adapter = adapter
-    }
-
-    override fun onResume() {
-        runLogic()
-        super.onResume()
     }
 
     companion object {

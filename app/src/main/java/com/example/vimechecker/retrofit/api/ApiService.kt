@@ -1,5 +1,8 @@
-package com.example.vimechecker.data.api
+package com.example.vimechecker.retrofit.api
 
+import com.example.vimechecker.model.achievement.Achievements
+import com.example.vimechecker.model.achievement.player.PAchievement
+import com.example.vimechecker.model.achievement.player.PlayerAchievement
 import com.example.vimechecker.model.admin.AdminModel
 import com.example.vimechecker.model.guild.GuildModel
 import com.example.vimechecker.model.lastgame.LastGamesModel
@@ -8,7 +11,6 @@ import com.example.vimechecker.model.playerFriends.PlayerFriends
 import com.example.vimechecker.model.playerOnline.PlayerOnline
 import com.example.vimechecker.model.projectOnline.OnlineModel
 import com.example.vimechecker.model.token.TokenModel
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -39,4 +41,10 @@ interface ApiService {
 
     @GET("guild/get?")
     suspend fun getGuild(@Query("name") guild: String, @Query("token") token: String = "D4OepxCVeGLWdhfjwMKnbdoBLZoIsMB"): Response<GuildModel>
+
+    @GET("misc/achievements?token=D4OepxCVeGLWdhfjwMKnbdoBLZoIsMB")
+    suspend fun getServerAchievements(): Response<Achievements>
+
+    @GET("/user/{id}/achievements?token=D4OepxCVeGLWdhfjwMKnbdoBLZoIsMB")
+    suspend fun getPlayerAchievements(@Path("id") id: Int?): Response<PlayerAchievement>
 }

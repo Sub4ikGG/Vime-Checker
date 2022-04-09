@@ -1,18 +1,14 @@
 package com.example.vimechecker.view
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.vimechecker.R
 import com.example.vimechecker.databinding.FragmentMainBinding
@@ -24,42 +20,35 @@ import kotlinx.coroutines.*
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var viewModel: MainViewModel
-    private var scope = CoroutineScope(Dispatchers.IO + CoroutineName("API"))
+    private var scope = CoroutineScope(Dispatchers.IO + CoroutineName("API-Main"))
 
     private var adapter = OnlineAdapter()
-    private var checkerStarted = false
+
+    private var isViewInit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("Test", "MainFragment - onCreate")
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        setupOnlineObserver()
         setupOnlineChecker()
+        setupOnlineObserver()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        Log.d("Test", "MainFragment - onCreateView")
+    ): View {
+
         binding = FragmentMainBinding.inflate(layoutInflater)
-        binding.progressBar.visibility = View.VISIBLE
-        binding.mainLayout.visibility = View.GONE
+        setupRecyclerView()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("Test", "MainFragment - onViewCreated")
 
-        if(checkerStarted) {
-            binding.progressBar.visibility = View.GONE
-            binding.mainLayout.visibility = View.VISIBLE
-        }
-
-        setupRecyclerView()
+        if(!isViewInit) progressBar(true)
         setupClickListener()
     }
 
@@ -68,6 +57,10 @@ class MainFragment : Fragment() {
             childFragmentManager.beginTransaction()
                 .replace(R.id.frameLayout_main, AdminsListFragment())
                 .commit()
+        }
+
+        binding.allAchievementsButton.setOnClickListener {
+            findNavController().navigate(R.id.teleport_to_achievements, bundleOf("server-achievements" to true))
         }
     }
 
@@ -80,31 +73,40 @@ class MainFragment : Fragment() {
     private fun setupOnlineChecker() {
         scope.launch(Dispatchers.IO) {
             while (true) {
-                viewModel.getInfo()
-                delay(15000L)
+                if(this@MainFragment.isVisible) {
+                    Log.d("Test", "Отправляю запрос")
+                    viewModel.getInfo()
+                    delay(15000L)
+                }
+                else delay(500L)
             }
         }
     }
 
     private fun setupOnlineObserver() {
         viewModel.onlineLiveData.observe(this) { _it ->
+            Log.d("Test", "MainFragment | Осталось запросов: ${_it.headers()["X-RateLimit-Remaining"]}".trim())
             _it.body()?.let {
-                checkerStarted = true
-                Log.d("Test", "Data update")
                 updateUI(it)
             }
         }
     }
 
     private fun updateUI(model: OnlineModel) {
-        println(model)
+
+        /*Я пока не узнал, как исправить баг с тем, если подходит лимит запросов,
+        то программа крашит :(*/
+
         if(model.separated != null && model != null) {
             val text = "Всего игроков: ${model.total}"
             binding.allOnlineTextView.text = text
             adapter.setupOnline(sortListPairDesc(model.separated.toList()))
+            adapter.notifyItemRangeChanged(0, model.separated.toList().size)
 
-            binding.mainLayout.visibility = View.VISIBLE
-            binding.progressBar.visibility = View.GONE
+            progressBar(false)
+            isViewInit = true
+
+            binding.mgOnlineRcView.setHasFixedSize(true)
         }
     }
 
@@ -112,8 +114,9 @@ class MainFragment : Fragment() {
         return list.sortedWith(compareBy({ it.second }, { it.first })).asReversed()
     }
 
-    private fun Toast(text: String) {
-        android.widget.Toast.makeText(context, text, android.widget.Toast.LENGTH_SHORT).show()
+    private fun progressBar(state: Boolean) {
+        binding.progressBar.visibility = if(state) View.VISIBLE else View.GONE
+        binding.mainLayout.visibility = if(state) View.INVISIBLE else View.VISIBLE
     }
 
     override fun onDestroy() {

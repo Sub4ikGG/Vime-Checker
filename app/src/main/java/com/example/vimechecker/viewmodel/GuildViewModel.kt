@@ -2,7 +2,7 @@ package com.example.vimechecker.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.vimechecker.data.repository.Repository
+import com.example.vimechecker.retrofit.repository.Repository
 import com.example.vimechecker.model.guild.GuildModel
 import retrofit2.Response
 

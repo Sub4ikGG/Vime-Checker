@@ -6,8 +6,14 @@
 
     <fragment android:id="@+id/playerProfileFragment4" android:name="com.example.vimechecker.view.PlayerProfileFragment"
               android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile">
-        <action android:id="@+id/action_playerProfileFragment4_self" app:destination="@id/playerProfileFragment4"
+        <action android:id="@+id/teleport_to_player" app:destination="@id/playerProfileFragment4"
                 app:enterAnim="@android:anim/slide_in_left" app:exitAnim="@android:anim/slide_out_right"
                 app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"/>
+        <action android:id="@+id/teleport_to_achievements"
+                app:destination="@id/achievementsFragment3" app:enterAnim="@android:anim/fade_in"
+                app:exitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"
+                app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
+    <fragment android:id="@+id/achievementsFragment3" android:name="com.example.vimechecker.view.AchievementsFragment"
+              android:label="fragment_achievements" tools:layout="@layout/fragment_achievements"/>
 </navigation>

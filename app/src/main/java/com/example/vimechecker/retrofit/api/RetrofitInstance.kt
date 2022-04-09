@@ -1,4 +1,4 @@
-package com.example.vimechecker.data.api
+package com.example.vimechecker.retrofit.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

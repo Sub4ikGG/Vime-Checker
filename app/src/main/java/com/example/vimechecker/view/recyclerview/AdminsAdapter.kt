@@ -22,7 +22,6 @@ class AdminsAdapter(private val fragment: Fragment, val navController: NavContro
             binding.nicknameTextView.text = model.username
             binding.levelTextView.text = model.level.toString()
             binding.rankTextView.text = model.rank
-            binding.statusTextView.text = "Находится онлайн"
 
             Glide.with(fragment)
                 .load("https://skin.vimeworld.ru/helm/${model.username}.png")
@@ -31,8 +30,8 @@ class AdminsAdapter(private val fragment: Fragment, val navController: NavContro
                 .placeholder(R.drawable.steve)
                 .into(binding.avatarImageView)
 
-            binding.avatarImageView.setOnClickListener {
-                navController.navigate(R.id.playerProfileFragment2, bundleOf("nickname" to model.username))
+            binding.toProfileTextViewC.setOnClickListener {
+                navController.navigate(R.id.action_mainScreen_to_playerProfileFragment3, bundleOf("nickname" to model.username))
             }
         }
     }

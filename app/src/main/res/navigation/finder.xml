@@ -6,11 +6,31 @@
 
     <fragment android:id="@+id/findSomethingFragment2" android:name="com.example.vimechecker.view.FindSomethingFragment"
               android:label="fragment_find_player" tools:layout="@layout/fragment_find_player">
-        <action android:id="@+id/action_findSomethingFragment2_to_playerProfileFragment"
-                app:destination="@id/playerProfileFragment4"/>
+        <action android:id="@+id/teleport_to_player"
+                app:destination="@id/playerProfileFragment4" app:enterAnim="@android:anim/slide_in_left"
+                app:exitAnim="@android:anim/slide_out_right" app:popEnterAnim="@android:anim/slide_in_left"
+                app:popExitAnim="@android:anim/slide_out_right"/>
+        <action android:id="@+id/teleport_to_guild" app:destination="@id/guildFragment"
+                app:enterAnim="@android:anim/slide_in_left" app:exitAnim="@android:anim/slide_out_right"
+                app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"/>
     </fragment>
     <fragment android:id="@+id/playerProfileFragment4" android:name="com.example.vimechecker.view.PlayerProfileFragment"
               android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile">
-        <action android:id="@+id/action_playerProfileFragment4_self2" app:destination="@id/playerProfileFragment4"/>
+        <action android:id="@+id/teleport_to_player" app:destination="@id/playerProfileFragment4"
+                app:enterAnim="@android:anim/slide_in_left" app:exitAnim="@android:anim/slide_out_right"
+                app:popEnterAnim="@android:anim/slide_in_left" app:popExitAnim="@android:anim/slide_out_right"/>
+        <action android:id="@+id/teleport_to_achievements"
+                app:destination="@id/achievementsFragment" app:enterAnim="@android:anim/fade_in"
+                app:exitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"
+                app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
+    <fragment android:id="@+id/guildFragment" android:name="com.example.vimechecker.view.GuildFragment"
+              android:label="fragment_guild" tools:layout="@layout/fragment_guild">
+        <action android:id="@+id/teleport_to_player"
+                app:destination="@id/playerProfileFragment4" app:enterAnim="@android:anim/slide_in_left"
+                app:exitAnim="@android:anim/slide_out_right" app:popEnterAnim="@android:anim/slide_in_left"
+                app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+    <fragment android:id="@+id/achievementsFragment" android:name="com.example.vimechecker.view.AchievementsFragment"
+              android:label="fragment_achievements" tools:layout="@layout/fragment_achievements"/>
 </navigation>

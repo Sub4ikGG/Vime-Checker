@@ -1,6 +1,5 @@
 package com.example.vimechecker.view.recyclerview
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,25 +30,16 @@ class FriendsAdapter(private val fragment: Fragment, val navController: NavContr
 
             binding.avatar.setOnClickListener {
                 if(friend.id != -1) {
-                    println(navController.graph.id)
-                    try {
                         navController.navigate(
-                            R.id.action_findSomethingFragment2_to_playerProfileFragment,
+                            R.id.teleport_to_player,
                             bundleOf("nickname" to friend.username)
                         )
-                    }
-                    catch (e: Exception) {
-                        navController.navigate(
-                            R.id.action_playerProfileFragment4_self,
-                            bundleOf("nickname" to friend.username)
-                        )
-                    }
                 }
             }
 
             binding.avatar.setOnLongClickListener {
                 if(friend.id != -1) {
-                    Toast.makeText(fragment.context, friend.username, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(fragment.context, friend.username.trim(), Toast.LENGTH_SHORT).show()
                     true
                 }
                 else false

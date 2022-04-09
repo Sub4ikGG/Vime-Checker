@@ -7,8 +7,20 @@
     <fragment android:id="@+id/mainScreen" android:name="com.example.vimechecker.view.MainFragment"
               android:label="fragment_main" tools:layout="@layout/fragment_main">
         <action android:id="@+id/action_mainScreen_to_playerProfileFragment3"
-                app:destination="@id/playerProfileFragment3"/>
+                app:destination="@id/playerProfileFragment3" app:enterAnim="@android:anim/fade_in"
+                app:exitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"
+                app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
     <fragment android:id="@+id/playerProfileFragment3" android:name="com.example.vimechecker.view.PlayerProfileFragment"
-              android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile"/>
+              android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile">
+        <action android:id="@+id/teleport_to_player" app:destination="@id/playerProfileFragment3"
+                app:enterAnim="@android:anim/fade_in" app:exitAnim="@android:anim/fade_out"
+                app:popEnterAnim="@android:anim/fade_in" app:popExitAnim="@android:anim/fade_out"/>
+        <action android:id="@+id/action_playerProfileFragment3_to_achievementsFragment"
+                app:destination="@id/teleport_to_achievements" app:enterAnim="@android:anim/fade_in"
+                app:exitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"
+                app:popExitAnim="@android:anim/fade_out"/>
+    </fragment>
+    <fragment android:id="@+id/teleport_to_achievements" android:name="com.example.vimechecker.view.AchievementsFragment"
+              android:label="fragment_achievements" tools:layout="@layout/fragment_achievements"/>
 </navigation>
