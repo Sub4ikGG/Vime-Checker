@@ -11,8 +11,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgs
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -33,11 +31,13 @@ class AchievementsFragment : Fragment() {
     lateinit var binding: FragmentAchievementsBinding
     lateinit var viewModel: AchivementsViewModel
 
-    private val adapter = AchievementsAdapter()
+    private var adapter = AchievementsAdapter()
     private val scope = CoroutineScope(Dispatchers.IO + CoroutineName("API-Achievements"))
     private val handler = Handler(Looper.getMainLooper())
 
     private var currentServerAchievements: Achievements? = null
+    private lateinit var markedAchievements: List<Achievement>
+    private lateinit var defaultAchievements: List<Achievement>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +54,7 @@ class AchievementsFragment : Fragment() {
 
         if(arguments?.getBoolean("server-achievements") == true) {
             binding.mainBoxLayout.visibility = View.GONE
+            binding.showAllCheckBox.visibility = View.GONE
         }
 
         arguments!!.getParcelable<PlayerOnlineItem>("player")?.let { fillPlayerLayout(it) }
@@ -61,11 +62,29 @@ class AchievementsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupObserver()
         if(savedInstanceState == null) getAchievements()
+
+        binding.showAllCheckBox.setOnCheckedChangeListener { _, state ->
+            if(state) {
+                Log.d("Test", markedAchievements.size.toString())
+                adapter = AchievementsAdapter()
+                binding.achievementsRcView.adapter = adapter
+                adapter.loadAchievements(markedAchievements)
+                adapter.notifyDataSetChanged()
+            }
+            else {
+                Log.d("Test", defaultAchievements.size.toString())
+                adapter = AchievementsAdapter()
+                binding.achievementsRcView.adapter = adapter
+                adapter.loadAchievements(defaultAchievements)
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -125,33 +144,44 @@ class AchievementsFragment : Fragment() {
                     delay(50L)
                 }
 
-                if(value.body()!!.achievements.isEmpty()) {
-
-                }
-
-                adapter.loadAchievements(sortServerAchievements(collectAchievements(value.body()!!.achievements)))
+                markedAchievements = sortServerAchievements(collectAchievements(value.body()!!.achievements, true))
+                defaultAchievements = sortServerAchievements(collectAchievements(value.body()!!.achievements))
+                Log.d("Test", "${defaultAchievements.size}, ${markedAchievements.size}")
+                adapter.loadAchievements(markedAchievements)
 
                 handler.post { setupRecyclerView() }
             }
         }
     }
 
-    private fun collectAchievements(pA: List<PAchievement>): MutableList<Achievement> {
+    private fun collectAchievements(pA: List<PAchievement>, mark: Boolean = false): MutableList<Achievement> {
         val sAchievements = achievementsToList(currentServerAchievements!!)
         val pAchievement = pA
 
         val curwa: MutableList<Achievement> = arrayListOf()
-        for(achievement in sAchievements) {
-            Log.d("Test", "${achievement.title}")
-            for(pAchiev in pAchievement) {
-                if(achievement.id == pAchiev.id) {
-                    curwa.add(achievement)
+        if(!mark)
+            for(achievement in sAchievements) {
+                for(pAchiev in pAchievement) {
+                    if(achievement.id == pAchiev.id) {
+                        curwa.add(achievement)
+                    }
                 }
+            }
+        else {
+            for(achievement in sAchievements) {
+                var found = false
+                for(pAchiev in pAchievement) {
+                    if(achievement.id == pAchiev.id) {
+                        found = true
+                    }
+                }
+                if(!found) achievement.reward += "{-1"
+                curwa.add(achievement)
             }
         }
 
         handler.post {
-            binding.achievementProgressTextView.text = "Достижения: ${curwa.size}/${sAchievements.size}"
+            if(!mark) binding.achievementProgressTextView.text = "Достижения: ${curwa.size}/${sAchievements.size}"
         }
 
         return curwa

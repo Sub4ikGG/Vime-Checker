@@ -1,8 +1,8 @@
 package com.example.vimechecker.model.achievement
 
 data class Achievement(
-    val description: List<String>,
+    var description: List<String>,
     val id: Int,
-    val reward: Int,
+    var reward: String,
     var title: String
 )

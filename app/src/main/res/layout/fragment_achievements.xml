@@ -10,16 +10,17 @@
         <RelativeLayout
             android:id="@+id/main_box_layout"
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp" android:background="@drawable/box"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
+            android:background="@drawable/box"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/lastEnter_textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/minecraft"
                 android:layout_below="@id/online_textView"
                 android:layout_alignEnd="@id/online_textView"
+                android:fontFamily="@font/minecraft"
                 android:text="19.03.2022"
                 android:textColor="@color/grey"
                 android:textSize="14sp"
@@ -106,7 +107,18 @@
             android:id="@+id/achievements_rcView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/main_box_layout"
+            android:layout_below="@id/show_all_checkBox"
+            android:layout_marginTop="2dp"
             android:overScrollMode="never"/>
+        <CheckBox
+            android:id="@+id/show_all_checkBox"
+            style="@style/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/main_box_layout"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/box"
+            android:padding="8dp"
+            android:text="Показать все"/>
     </RelativeLayout>
 </FrameLayout>

@@ -1,9 +1,11 @@
 package com.example.vimechecker.view.recyclerview
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vimechecker.R
 import com.example.vimechecker.databinding.AchievementItemBinding
@@ -18,6 +20,7 @@ class AchievementsAdapter: RecyclerView.Adapter<AchievementsAdapter.Achievements
     class AchievementsViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val binding = AchievementItemBinding.bind(view)
         fun bind(achievement: Achievement) {
+            //Log.d("Test", achievement.title)
             /*Каждый bind проверяем на chapter-разделение, но не меняя achievementChapterName*/
             var chapter = ""
             binding.achievementChapterName.visibility = View.GONE
@@ -28,6 +31,11 @@ class AchievementsAdapter: RecyclerView.Adapter<AchievementsAdapter.Achievements
 
                 binding.achievementChapterName.text = Transcriptions.localeNames[chapter]
                 binding.achievementChapterName.visibility = View.VISIBLE
+            }
+            if(achievement.reward.contains("{-1")) {
+                binding.achievementName.setTextColor(Color.parseColor("#9E9C9C"))
+                binding.achievementDescTextView.setTextColor(Color.parseColor("#9E9C9C"))
+                binding.achievementRewardTextView.setTextColor(Color.parseColor("#9E9C9C"))
             }
 
             val rewardText = "Награда: ${achievement.reward} коинов"

@@ -16,7 +16,9 @@
             android:visibility="gone"
     />
     <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/adminsList_rcView"
-            tools:listitem="@layout/lite_player_item" tools:itemCount="14" android:nestedScrollingEnabled="true"/>
+        android:id="@+id/adminsList_rcView"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true" android:overScrollMode="never" tools:itemCount="14"
+        tools:listitem="@layout/lite_player_item">
+    </androidx.recyclerview.widget.RecyclerView>
 </FrameLayout>

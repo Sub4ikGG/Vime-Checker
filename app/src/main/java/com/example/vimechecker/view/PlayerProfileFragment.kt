@@ -61,7 +61,9 @@ class PlayerProfileFragment : Fragment() {
         mRequestViewModel = ViewModelProvider(this)[RequestViewModel::class.java]
         friendsAdapter = FriendsAdapter(this, findNavController())
         sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         db = AppDatabase.getDatabase(context!!).requestDao()
+
 
         super.onCreate(savedInstanceState)
     }
@@ -72,15 +74,11 @@ class PlayerProfileFragment : Fragment() {
     ): View {
         binding = FragmentPlayerProfileBinding.inflate(layoutInflater)
         checkStatement(savedInstanceState)
+        setupObservers()
         setupRecyclerView()
+        setupClickListeners()
 
         return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setupObservers()
-        setupClickListeners()
     }
 
     private fun checkStatement(savedInstanceState: Bundle?) {
@@ -92,7 +90,8 @@ class PlayerProfileFragment : Fragment() {
         } else {
             if (selectNotNull(nickname, tokenNickname) == null) showTokenLayout()
             if (binding.nicknameTextView.text == "TeTTJIo" && binding.nicknameTextView.visibility == View.VISIBLE
-                && binding.tokenLayout.visibility == View.GONE) {
+                && binding.tokenLayout.visibility == View.GONE && tokenNickname == null) {
+                Log.d("Test", "showErrorMessage()")
                 showErrorMessage()
             }
         }

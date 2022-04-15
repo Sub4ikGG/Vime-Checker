@@ -28,12 +28,20 @@ class LastRequestsAdapter(val fragment: Fragment, private val navController: Nav
 
             binding.toProfileTextViewC.text = if(request.type == "Игрок") toProfileText else toGuildText
 
-            Glide.with(fragment)
-                .load(request.avatar)
-                .skipMemoryCache(false)
-                .centerCrop()
-                .placeholder(R.drawable.steve)
-                .into(binding.avatarImageView)
+            if(request.type == "Игрок")
+                Glide.with(fragment)
+                    .load(request.avatar)
+                    .skipMemoryCache(false)
+                    .centerCrop()
+                    .placeholder(R.drawable.steve)
+                    .into(binding.avatarImageView)
+            else
+                Glide.with(fragment)
+                    .load(request.avatar)
+                    .skipMemoryCache(false)
+                    .centerCrop()
+                    .placeholder(R.drawable.vimeworld)
+                    .into(binding.avatarImageView)
 
             binding.toProfileTextViewC.setOnClickListener {
                 val path = if(request.type == "Игрок") R.id.teleport_to_player else R.id.teleport_to_guild

@@ -41,7 +41,7 @@ class PlayerProfileViewModel: ViewModel() {
             val pFriends = repository.getPlayerFriends(id!!)
             val friends = pFriends.body()?.friends
 
-            if(friends?.isNotEmpty() == true) { //Filling array with anonymous
+            if(friends?.isNotEmpty() == true) { // Filling array with anonymous
                 val anonymous = friends.first().copy()
                 anonymous.id = -1
 

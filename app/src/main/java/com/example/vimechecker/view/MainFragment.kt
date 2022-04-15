@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -25,6 +26,7 @@ class MainFragment : Fragment() {
     private var adapter = OnlineAdapter()
 
     private var isViewInit = false
+    private var whatIsOpened = "nothing"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +56,12 @@ class MainFragment : Fragment() {
 
     private fun setupClickListener() {
         binding.adminsOnlineButton.setOnClickListener {
-            childFragmentManager.beginTransaction()
-                .replace(R.id.frameLayout_main, AdminsListFragment())
-                .commit()
+            if(whatIsOpened != ADMINS_PANEL) {
+                whatIsOpened = ADMINS_PANEL
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout_main, AdminsListFragment())
+                    .commit()
+            }
         }
 
         binding.allAchievementsButton.setOnClickListener {
@@ -125,6 +130,7 @@ class MainFragment : Fragment() {
     }
 
     companion object {
+        private const val ADMINS_PANEL = "admins_panel"
         @JvmStatic
         fun newInstance() = MainFragment()
     }
