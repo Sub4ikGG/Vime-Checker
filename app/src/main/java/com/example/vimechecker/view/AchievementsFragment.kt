@@ -144,8 +144,10 @@ class AchievementsFragment : Fragment() {
                     delay(50L)
                 }
 
-                markedAchievements = sortServerAchievements(collectAchievements(value.body()!!.achievements, true))
+                markedAchievements = sortServerAchievements(collectAchievements(value.body()!!.achievements, true), true)
+                for(i in markedAchievements) Log.d("Achievement1", i.title)
                 defaultAchievements = sortServerAchievements(collectAchievements(value.body()!!.achievements))
+                for(i in defaultAchievements) Log.d("Achievement2", i.title)
                 Log.d("Test", "${defaultAchievements.size}, ${markedAchievements.size}")
                 adapter.loadAchievements(markedAchievements)
 
@@ -175,7 +177,7 @@ class AchievementsFragment : Fragment() {
                         found = true
                     }
                 }
-                if(!found) achievement.reward += "{-1"
+                if(!found) achievement.title += "{-1"
                 curwa.add(achievement)
             }
         }
@@ -187,44 +189,17 @@ class AchievementsFragment : Fragment() {
         return curwa
     }
 
-    private fun mergeAchievements(pAchievements: List<PAchievement>): MutableList<Achievement> {
-        val list: MutableList<Achievement> = arrayListOf()
-        val allAchievements = achievementsToList(currentServerAchievements!!)
-
-        var lastGame = ""
-        for(achievement in pAchievements) {
-            for(serverAchievement in allAchievements) {
-                if(achievement.id == serverAchievement.id) {
-                    val currentGame = selectGame(achievement.id / 100)
-                    if (lastGame != currentGame) {
-                        lastGame = currentGame
-
-                        serverAchievement.title += "|$lastGame"
-                        list.add(serverAchievement)
-                    }
-                    else {
-                        list.add(serverAchievement)
-                    }
-                }
-            }
-        }
-
-        return list
-    }
-
-    private fun sortPlayerAchievements(pAchievements: List<PAchievement>): List<PAchievement> {
-        return pAchievements.sortedBy { it.id }
-    }
-
-    private fun sortServerAchievements(sAchievement: List<Achievement>): List<Achievement> {
+    private fun sortServerAchievements(sAchievement: List<Achievement>, print: Boolean = false): List<Achievement> {
         val list: List<Achievement> = sAchievement
 
         var lastGame = ""
         for(achievement in list) {
+            if(print) Log.d("Title", achievement.title)
             val currentGame = selectGame(achievement.id / 100)
             if(lastGame != currentGame) {
                 lastGame = currentGame
 
+                if(print) Log.d("TitleAdd", "Добавил ${achievement.title} - |$lastGame")
                 achievement.title += "|$lastGame"
             }
         }

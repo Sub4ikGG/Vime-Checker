@@ -26,13 +26,13 @@ class AchievementsAdapter: RecyclerView.Adapter<AchievementsAdapter.Achievements
             binding.achievementChapterName.visibility = View.GONE
 
             if(achievement.title.contains("|")) {
-                //Log.d("Test", achievement.title)
+                Log.d("Title1", achievement.title)
                 chapter = achievement.title.split("|")[1]
 
                 binding.achievementChapterName.text = Transcriptions.localeNames[chapter]
                 binding.achievementChapterName.visibility = View.VISIBLE
             }
-            if(achievement.reward.contains("{-1")) {
+            if(achievement.title.contains("{-1")) {
                 binding.achievementName.setTextColor(Color.parseColor("#9E9C9C"))
                 binding.achievementDescTextView.setTextColor(Color.parseColor("#9E9C9C"))
                 binding.achievementRewardTextView.setTextColor(Color.parseColor("#9E9C9C"))
@@ -40,7 +40,7 @@ class AchievementsAdapter: RecyclerView.Adapter<AchievementsAdapter.Achievements
 
             val rewardText = "Награда: ${achievement.reward} коинов"
             //Log.d("Test", "${achievement.title.removeSuffix("|$chapter")} ${achievement.title}")
-            binding.achievementName.text = achievement.title.removeSuffix("|$chapter").removeSuffix("|$chapter")
+            binding.achievementName.text = achievement.title.removeSuffix("|$chapter")
             binding.achievementDescTextView.text = achievement.description[0]
             binding.achievementRewardTextView.text = rewardText
         }
