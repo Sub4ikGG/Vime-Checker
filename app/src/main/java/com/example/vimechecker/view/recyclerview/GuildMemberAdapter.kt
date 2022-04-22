@@ -14,12 +14,17 @@ import com.example.vimechecker.R
 import com.example.vimechecker.databinding.FriendItemBinding
 import com.example.vimechecker.model.guild.Member
 
-class GuildMemberAdapter(private val fragment: Fragment, val navController: NavController): RecyclerView.Adapter<GuildMemberAdapter.MemberHolder>() {
+class GuildMemberAdapter(private val fragment: Fragment, val navController: NavController, val onMemberClickListener: OnMemberClickListener): RecyclerView.Adapter<GuildMemberAdapter.MemberHolder>() {
     private var memberList = emptyList<Member>()
 
     class MemberHolder(view: View): RecyclerView.ViewHolder(view) {
         private val binding = FriendItemBinding.bind(view)
-        fun bind(member: Member, fragment: Fragment, navController: NavController) {
+        fun bind(
+            member: Member,
+            fragment: Fragment,
+            navController: NavController,
+            onMemberClickListener: OnMemberClickListener
+        ) {
             Glide.with(fragment)
                 .load("https://skin.vimeworld.ru/helm/${member.user.username}.png")
                 .centerCrop()
@@ -31,6 +36,8 @@ class GuildMemberAdapter(private val fragment: Fragment, val navController: NavC
                         R.id.teleport_to_player,
                         bundleOf("nickname" to member.user.username)
                     )
+
+                onMemberClickListener.guildMemberClick(adapterPosition)
             }
 
             binding.avatar.setOnLongClickListener {
@@ -46,7 +53,7 @@ class GuildMemberAdapter(private val fragment: Fragment, val navController: NavC
     }
 
     override fun onBindViewHolder(holder: MemberHolder, position: Int) {
-        holder.bind(memberList[position], fragment, navController)
+        holder.bind(memberList[position], fragment, navController, onMemberClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -57,5 +64,9 @@ class GuildMemberAdapter(private val fragment: Fragment, val navController: NavC
     fun updateInfo(list: List<Member>) {
         memberList = list
         notifyDataSetChanged()
+    }
+
+    interface OnMemberClickListener {
+        fun guildMemberClick(position: Int)
     }
 }

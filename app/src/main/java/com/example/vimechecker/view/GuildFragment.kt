@@ -26,7 +26,7 @@ import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class GuildFragment : Fragment() {
+class GuildFragment : Fragment(), GuildMemberAdapter.OnMemberClickListener {
     private lateinit var binding: FragmentGuildBinding
     private lateinit var adapter: GuildMemberAdapter
     private lateinit var viewModel: GuildViewModel
@@ -40,7 +40,7 @@ class GuildFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("Test", "Guild: onCreate")
-        adapter = GuildMemberAdapter(this, findNavController())
+        adapter = GuildMemberAdapter(this, findNavController(), this)
         viewModel = ViewModelProvider(this)[GuildViewModel::class.java]
         mRequestViewModel = ViewModelProvider(this)[RequestViewModel::class.java]
         db = AppDatabase.getDatabase(context!!).requestDao()
@@ -119,6 +119,8 @@ class GuildFragment : Fragment() {
         binding.expTextView.text = expText
         binding.coinsTextView.text = coinsText
         binding.levelTextView.text = guild.level.toString()
+        binding.quoteTextView.text = guild.web_info.toString()
+        binding.quoteGuildTextView.text = "@${guild.name}"
 
         adapter.updateInfo(setLeaderFirst(guild.members))
         scope.launch(Dispatchers.Main) { loadAvatar(guild.avatar_url) }
@@ -189,6 +191,10 @@ class GuildFragment : Fragment() {
 
     private fun progressBar(state: Boolean) {
         binding.progressBar4.visibility = if(state) View.VISIBLE else View.GONE
+    }
+
+    override fun guildMemberClick(position: Int) {
+        Log.d("Test", "Clicked: $position")
     }
 
     companion object {

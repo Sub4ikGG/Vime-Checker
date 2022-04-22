@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+        android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/main_box_layout" android:layout_marginBottom="6dp">
+
+    <TextView
+        android:id="@+id/nickname_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_toEndOf="@id/avatar_cardView"
+        android:fontFamily="@font/minecraft"
+        android:text="TeTTJIo"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/level_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:fontFamily="@font/minecraft"
+        android:gravity="end"
+        android:text="2"
+        android:textColor="#FFFFFF" android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/rank_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nickname_textView"
+        android:layout_alignStart="@id/nickname_textView"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/minecraft"
+        android:text="Player"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/donate_coins_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/donate_exp_textView"
+        android:layout_alignStart="@id/nickname_textView"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/minecraft"
+        android:text="Вклад: 5342351 c."
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/donate_exp_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/nickname_textView"
+        android:layout_alignBottom="@id/avatar_cardView"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/minecraft"
+        android:text="Вклад: 5342351 exp."
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"/>
+    <androidx.cardview.widget.CardView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:id="@+id/avatar_cardView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintVertical_bias="0.0"
+    >
+        <ImageView
+                android:src="@drawable/steve"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/avatar_imageView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:scaleType="centerCrop"
+                app:layout_constraintVertical_bias="0.0"
+        />
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
