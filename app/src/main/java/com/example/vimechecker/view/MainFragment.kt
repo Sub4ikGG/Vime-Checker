@@ -67,6 +67,10 @@ class MainFragment : Fragment() {
         binding.allAchievementsButton.setOnClickListener {
             findNavController().navigate(R.id.teleport_to_achievements, bundleOf("server-achievements" to true))
         }
+
+        binding.aboutProjectButton.setOnClickListener {
+            findNavController().navigate(R.id.teleport_to_about_project)
+        }
     }
 
     private fun setupRecyclerView() {

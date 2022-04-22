@@ -116,6 +116,17 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/allAchievements_button"
                 app:layout_constraintTop_toBottomOf="@+id/allAchievements_button"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/about_project_button"
+                style="@style/button"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/box"
+                android:text="Информация о проекте" android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/allAchievements_button"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/allAchievements_button"/>
             <LinearLayout
                 android:id="@+id/box_line_3"
                 android:layout_width="0dp"
@@ -132,12 +143,13 @@
                 android:id="@+id/frameLayout_main"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:isScrollContainer="false"
                 android:overScrollMode="never"
+                app:layout_constraintBottom_toTopOf="@+id/about_project_button"
                 app:layout_constraintEnd_toEndOf="@+id/spyMod_button"
-                app:layout_constraintStart_toStartOf="@+id/spyMod_button"
-                app:layout_constraintTop_toBottomOf="@+id/box_line_3">
+                app:layout_constraintStart_toStartOf="@+id/spyMod_button" app:layout_constraintTop_toBottomOf="@+id/box_line_3">
 
             </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

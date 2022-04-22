@@ -10,6 +10,9 @@
                 app:destination="@id/playerProfileFragment3" app:enterAnim="@android:anim/fade_in"
                 app:exitAnim="@android:anim/fade_out" app:popEnterAnim="@android:anim/fade_in"
                 app:popExitAnim="@android:anim/fade_out"/>
+        <action android:id="@+id/teleport_to_about_project" app:destination="@id/aboutProjectFragment"
+                app:enterAnim="@android:anim/fade_in" app:exitAnim="@android:anim/fade_out"
+                app:popEnterAnim="@android:anim/fade_in" app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
     <fragment android:id="@+id/playerProfileFragment3" android:name="com.example.vimechecker.view.PlayerProfileFragment"
               android:label="fragment_player_profile" tools:layout="@layout/fragment_player_profile">
@@ -23,4 +26,6 @@
     </fragment>
     <fragment android:id="@+id/teleport_to_achievements" android:name="com.example.vimechecker.view.AchievementsFragment"
               android:label="fragment_achievements" tools:layout="@layout/fragment_achievements"/>
+    <fragment android:id="@+id/aboutProjectFragment" android:name="com.example.vimechecker.view.AboutProjectFragment"
+              android:label="fragment_about_project" tools:layout="@layout/fragment_about_project"/>
 </navigation>

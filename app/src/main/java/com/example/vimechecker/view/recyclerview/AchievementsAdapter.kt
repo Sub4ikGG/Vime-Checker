@@ -32,10 +32,15 @@ class AchievementsAdapter: RecyclerView.Adapter<AchievementsAdapter.Achievements
                 binding.achievementChapterName.text = Transcriptions.localeNames[chapter]
                 binding.achievementChapterName.visibility = View.VISIBLE
             }
-            if(achievement.title.contains("{-1")) {
+            if(!achievement.title.contains("+ ")) {
                 binding.achievementName.setTextColor(Color.parseColor("#9E9C9C"))
                 binding.achievementDescTextView.setTextColor(Color.parseColor("#9E9C9C"))
                 binding.achievementRewardTextView.setTextColor(Color.parseColor("#9E9C9C"))
+            }
+            else {
+                binding.achievementName.setTextColor(Color.parseColor("#FFFFFF"))
+                binding.achievementDescTextView.setTextColor(Color.parseColor("#FFFFFF"))
+                binding.achievementRewardTextView.setTextColor(Color.parseColor("#FFFFFF"))
             }
 
             val rewardText = "Награда: ${achievement.reward} коинов"

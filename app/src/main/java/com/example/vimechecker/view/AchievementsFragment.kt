@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +22,7 @@ import com.example.vimechecker.model.achievement.Achievements
 import com.example.vimechecker.model.achievement.player.PAchievement
 import com.example.vimechecker.model.playerOnline.PlayerOnlineItem
 import com.example.vimechecker.view.recyclerview.AchievementsAdapter
-import com.example.vimechecker.viewmodel.AchivementsViewModel
+import com.example.vimechecker.viewmodel.AchievementsViewModel
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,19 +30,18 @@ import java.util.*
 
 class AchievementsFragment : Fragment() {
     lateinit var binding: FragmentAchievementsBinding
-    lateinit var viewModel: AchivementsViewModel
+    lateinit var viewModel: AchievementsViewModel
 
     private var adapter = AchievementsAdapter()
     private val scope = CoroutineScope(Dispatchers.IO + CoroutineName("API-Achievements"))
     private val handler = Handler(Looper.getMainLooper())
 
-    private var currentServerAchievements: Achievements? = null
+    private val currentServerAchievements: MutableLiveData<Achievements> = MutableLiveData()
     private lateinit var markedAchievements: List<Achievement>
-    private lateinit var defaultAchievements: List<Achievement>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[AchivementsViewModel::class.java]
+        viewModel = ViewModelProvider(this)[AchievementsViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -54,7 +54,6 @@ class AchievementsFragment : Fragment() {
 
         if(arguments?.getBoolean("server-achievements") == true) {
             binding.mainBoxLayout.visibility = View.GONE
-            binding.showAllCheckBox.visibility = View.GONE
         }
 
         arguments!!.getParcelable<PlayerOnlineItem>("player")?.let { fillPlayerLayout(it) }
@@ -68,23 +67,6 @@ class AchievementsFragment : Fragment() {
 
         setupObserver()
         if(savedInstanceState == null) getAchievements()
-
-        binding.showAllCheckBox.setOnCheckedChangeListener { _, state ->
-            if(state) {
-                Log.d("Test", markedAchievements.size.toString())
-                adapter = AchievementsAdapter()
-                binding.achievementsRcView.adapter = adapter
-                adapter.loadAchievements(markedAchievements)
-                adapter.notifyDataSetChanged()
-            }
-            else {
-                Log.d("Test", defaultAchievements.size.toString())
-                adapter = AchievementsAdapter()
-                binding.achievementsRcView.adapter = adapter
-                adapter.loadAchievements(defaultAchievements)
-                adapter.notifyDataSetChanged()
-            }
-        }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -122,87 +104,99 @@ class AchievementsFragment : Fragment() {
     }
 
     private fun setupObserver() {
-        viewModel.serverAchievements.observe(this) { value ->
-            if(value.body() == null) return@observe
+        viewModel.serverAchievements.observe(viewLifecycleOwner) { sAchievements ->
+            if(sAchievements.body() == null) return@observe
 
-            val array = achievementsToList(value.body()!!)
-            currentServerAchievements = value.body()!!
-
+            currentServerAchievements.postValue(sAchievements.body())
             if(arguments?.getBoolean("server-achievements") == true) {
-                adapter.loadAchievements(sortServerAchievements(array))
-                adapter.notifyItemRangeChanged(0, array.size)
-
-                binding.achievementsRcView.setHasFixedSize(true)
+                updateUI(sAchievements.body()!!)
             }
+            Log.d("Temp", sAchievements.body().toString())
         }
 
-        viewModel.playerAchievements.observe(this) { value ->
-            if(value.body() == null) return@observe
+        viewModel.playerAchievements.observe(viewLifecycleOwner) { pAchievements ->
+            if(pAchievements.body() == null) return@observe
 
             scope.launch {
-                while(currentServerAchievements == null) {
+                while(currentServerAchievements.value == null) {
                     delay(50L)
                 }
 
-                markedAchievements = sortServerAchievements(collectAchievements(value.body()!!.achievements, true), true)
-                for(i in markedAchievements) Log.d("Achievement1", i.title)
-                defaultAchievements = sortServerAchievements(collectAchievements(value.body()!!.achievements))
-                for(i in defaultAchievements) Log.d("Achievement2", i.title)
-                Log.d("Test", "${defaultAchievements.size}, ${markedAchievements.size}")
+                val temp = pAchievements.body()!!.achievements
+                val csAch = currentServerAchievements.value
+
+                markedAchievements = mergeAchievements(temp, csAch!!)
                 adapter.loadAchievements(markedAchievements)
 
-                handler.post { setupRecyclerView() }
+                handler.post { adapter.notifyItemRangeChanged(0, 165); setupRecyclerView() }
             }
         }
     }
 
-    private fun collectAchievements(pA: List<PAchievement>, mark: Boolean = false): MutableList<Achievement> {
-        val sAchievements = achievementsToList(currentServerAchievements!!)
-        val pAchievement = pA
+    private fun updateUI(a: Achievements) {
+        val array = sortServerAchievements(achievementsToList(a), true)
+        Log.d("Temp", a.toString())
 
-        val curwa: MutableList<Achievement> = arrayListOf()
-        if(!mark)
-            for(achievement in sAchievements) {
-                for(pAchiev in pAchievement) {
-                    if(achievement.id == pAchiev.id) {
-                        curwa.add(achievement)
-                    }
-                }
-            }
-        else {
-            for(achievement in sAchievements) {
-                var found = false
-                for(pAchiev in pAchievement) {
-                    if(achievement.id == pAchiev.id) {
-                        found = true
-                    }
-                }
-                if(!found) achievement.title += "{-1"
-                curwa.add(achievement)
-            }
+        if(arguments?.getBoolean("server-achievements") == true) {
+            adapter.loadAchievements(array)
+            adapter.notifyItemRangeChanged(0, array.size)
+
+            binding.achievementsRcView.setHasFixedSize(true)
         }
-
-        handler.post {
-            if(!mark) binding.achievementProgressTextView.text = "Достижения: ${curwa.size}/${sAchievements.size}"
-        }
-
-        return curwa
     }
 
-    private fun sortServerAchievements(sAchievement: List<Achievement>, print: Boolean = false): List<Achievement> {
+    private fun sortServerAchievements(sAchievement: List<Achievement>, server: Boolean = false): List<Achievement> {
         val list: List<Achievement> = sAchievement
 
         var lastGame = ""
         for(achievement in list) {
-            if(print) Log.d("Title", achievement.title)
             val currentGame = selectGame(achievement.id / 100)
+            if(server) achievement.title = "+ ${achievement.title}"
             if(lastGame != currentGame) {
                 lastGame = currentGame
 
-                if(print) Log.d("TitleAdd", "Добавил ${achievement.title} - |$lastGame")
                 achievement.title += "|$lastGame"
             }
         }
+
+        return list
+    }
+
+    private fun mergeAchievements(pAchievements: List<PAchievement>, csAchievements: Achievements): List<Achievement> {
+        val sAchievements = sortServerAchievements(achievementsToList(csAchievements))
+
+        var counter = 0
+        for(sAchievement in sAchievements) {
+            for (pAchievement in pAchievements) {
+                if (sAchievement.id == pAchievement.id) {
+                    counter++
+                    sAchievement.title = "+ ${sAchievement.title}"
+                }
+            }
+        }
+
+        handler.post { binding.achievementProgressTextView }
+        return sAchievements
+    }
+
+    private fun achievementsToList(achievements: Achievements): MutableList<Achievement> {
+        val list: MutableList<Achievement> = arrayListOf()
+
+        achievements.Глобальные?.let { list.addAll(it) }
+        achievements.Лобби?.let { list.addAll(it) }
+        achievements.Annihilation?.let { list.addAll(it) }
+        achievements.BedWars?.let { list.addAll(it) }
+        achievements.BlockParty?.let { list.addAll(it) }
+        achievements.BuildBattle?.let { list.addAll(it) }
+        achievements.ClashPoint?.let { list.addAll(it) }
+        achievements.Дуэли?.let { list.addAll(it) }
+        achievements.DeathRun?.let { list.addAll(it) }
+        achievements.GunGame?.let { list.addAll(it) }
+        achievements.HungerGames?.let { list.addAll(it) }
+        achievements.KitPvP?.let { list.addAll(it) }
+        achievements.MobWars?.let { list.addAll(it) }
+        achievements.Prison?.let { list.addAll(it) }
+        achievements.SkyWars?.let { list.addAll(it) }
 
         return list
     }
@@ -239,27 +233,5 @@ class AchievementsFragment : Fragment() {
             layoutManager.orientation
         )
         binding.achievementsRcView.addItemDecoration(dividerItemDecoration)
-    }
-
-    private fun achievementsToList(achievements: Achievements): MutableList<Achievement> {
-        val list: MutableList<Achievement> = arrayListOf()
-
-        achievements.Глобальные?.let { list.addAll(it) }
-        achievements.Лобби?.let { list.addAll(it) }
-        achievements.Annihilation?.let { list.addAll(it) }
-        achievements.BedWars?.let { list.addAll(it) }
-        achievements.BlockParty?.let { list.addAll(it) }
-        achievements.BuildBattle?.let { list.addAll(it) }
-        achievements.ClashPoint?.let { list.addAll(it) }
-        achievements.Дуэли?.let { list.addAll(it) }
-        achievements.DeathRun?.let { list.addAll(it) }
-        achievements.GunGame?.let { list.addAll(it) }
-        achievements.HungerGames?.let { list.addAll(it) }
-        achievements.KitPvP?.let { list.addAll(it) }
-        achievements.MobWars?.let { list.addAll(it) }
-        achievements.Prison?.let { list.addAll(it) }
-        achievements.SkyWars?.let { list.addAll(it) }
-
-        return list
     }
 }

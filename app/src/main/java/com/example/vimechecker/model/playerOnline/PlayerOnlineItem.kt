@@ -14,5 +14,5 @@ data class PlayerOnlineItem(
     val online: @RawValue Online,
     val playedSeconds: @RawValue Int,
     val rank: @RawValue String,
-    val username: @RawValue String
+    var username: @RawValue String
 ): Parcelable

@@ -106,19 +106,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/achievements_rcView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/show_all_checkBox"
-            android:layout_marginTop="2dp"
-            android:overScrollMode="never"/>
-        <CheckBox
-            android:id="@+id/show_all_checkBox"
-            style="@style/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/main_box_layout"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/box"
-            android:padding="8dp"
-            android:text="Показать все"/>
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="8dp" android:overScrollMode="never"/>
     </RelativeLayout>
 </FrameLayout>
