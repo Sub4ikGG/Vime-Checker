@@ -48,3 +48,6 @@ interface ApiService {
     @GET("/user/{id}/achievements?token=D4OepxCVeGLWdhfjwMKnbdoBLZoIsMB")
     suspend fun getPlayerAchievements(@Path("id") id: Int?): Response<PlayerAchievement>
 }
+
+
+

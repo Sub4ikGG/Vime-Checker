@@ -22,6 +22,8 @@ class PlayerProfileViewModel: ViewModel() {
     private val repository = Repository()
     private var id: Int? = null
 
+    /*Объявление полей LiveData, для отслеживания состояния данных,
+    привязка к ним идет во View (PlayerProfileFragment)*/
     var playerLiveData = MutableLiveData<Response<PlayerOnline>>()
     var playerFriends = MutableLiveData<MutableList<Friend>>()
     var lastGamesLiveData = MutableLiveData<Response<LastGamesModel>>()
@@ -41,7 +43,7 @@ class PlayerProfileViewModel: ViewModel() {
             val pFriends = repository.getPlayerFriends(id!!)
             val friends = pFriends.body()?.friends
 
-            if(friends?.isNotEmpty() == true) { // Filling array with anonymous
+            if(friends?.isNotEmpty() == true) {
                 val anonymous = friends.first().copy()
                 anonymous.id = -1
 

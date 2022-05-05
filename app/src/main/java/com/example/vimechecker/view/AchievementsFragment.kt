@@ -175,7 +175,7 @@ class AchievementsFragment : Fragment() {
             }
         }
 
-        handler.post { binding.achievementProgressTextView }
+        handler.post { binding.achievementProgressTextView.text = "Достижения: $counter/${sAchievements.size}" }
         return sAchievements
     }
 

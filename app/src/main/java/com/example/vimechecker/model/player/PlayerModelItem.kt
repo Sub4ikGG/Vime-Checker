@@ -1,6 +1,8 @@
 package com.example.vimechecker.model.player
 
-data class PlayerModelItem(
+/*Объявление data class`a модели игрока,
+перечисление полей модели*/
+data class PlayerModelItem (
     val guild: Guild,
     val id: Int,
     val lastSeen: Int,
@@ -10,3 +12,18 @@ data class PlayerModelItem(
     val rank: String,
     val username: String
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

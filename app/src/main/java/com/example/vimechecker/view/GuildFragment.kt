@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.vimechecker.R
@@ -21,14 +22,16 @@ import com.example.vimechecker.room.Request
 import com.example.vimechecker.room.RequestDao
 import com.example.vimechecker.room.RequestViewModel
 import com.example.vimechecker.view.recyclerview.GuildMemberAdapter
+import com.example.vimechecker.view.recyclerview.GuildMembersInfoAdapter
 import com.example.vimechecker.viewmodel.GuildViewModel
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class GuildFragment : Fragment(), GuildMemberAdapter.OnMemberClickListener {
+class GuildFragment : Fragment() {
     private lateinit var binding: FragmentGuildBinding
     private lateinit var adapter: GuildMemberAdapter
+    private lateinit var infoAdapter: GuildMembersInfoAdapter
     private lateinit var viewModel: GuildViewModel
     private lateinit var mRequestViewModel: RequestViewModel
     private lateinit var db: RequestDao
@@ -40,7 +43,8 @@ class GuildFragment : Fragment(), GuildMemberAdapter.OnMemberClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("Test", "Guild: onCreate")
-        adapter = GuildMemberAdapter(this, findNavController(), this)
+        adapter = GuildMemberAdapter(this, findNavController())
+        infoAdapter = GuildMembersInfoAdapter(this)
         viewModel = ViewModelProvider(this)[GuildViewModel::class.java]
         mRequestViewModel = ViewModelProvider(this)[RequestViewModel::class.java]
         db = AppDatabase.getDatabase(context!!).requestDao()
@@ -101,8 +105,16 @@ class GuildFragment : Fragment(), GuildMemberAdapter.OnMemberClickListener {
 
     private fun setupRecyclerView() {
         val layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+        val layoutManager2 = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         binding.membersRcVIew.adapter = adapter
         binding.membersRcVIew.layoutManager = layoutManager
+
+        binding.membersInfoRcVIew.adapter = infoAdapter
+        binding.membersInfoRcVIew.layoutManager = layoutManager2
+        binding.membersInfoRcVIew.addItemDecoration(
+            DividerItemDecoration(context,
+            DividerItemDecoration.VERTICAL)
+        )
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -119,8 +131,10 @@ class GuildFragment : Fragment(), GuildMemberAdapter.OnMemberClickListener {
         binding.expTextView.text = expText
         binding.coinsTextView.text = coinsText
         binding.levelTextView.text = guild.level.toString()
-        binding.quoteTextView.text = guild.web_info.toString()
-        binding.quoteGuildTextView.text = "@${guild.name}"
+        if(guild.web_info != null) {
+            binding.quoteTextView.text = guild.web_info.toString()
+            binding.quoteGuildTextView.text = "@${guild.name}"
+        }
 
         adapter.updateInfo(setLeaderFirst(guild.members))
         scope.launch(Dispatchers.Main) { loadAvatar(guild.avatar_url) }
@@ -134,7 +148,15 @@ class GuildFragment : Fragment(), GuildMemberAdapter.OnMemberClickListener {
             }
         }
 
+        setupMembersInfo(guild.members)
         binding.content.visibility = View.VISIBLE
+    }
+
+    private fun setupMembersInfo(members: List<Member>) {
+        binding.membersInfoBox.visibility = View.VISIBLE
+        val m = members.sortedWith(compareBy({ it.guildCoins }, { it.guildExp })).asReversed()
+        infoAdapter.updateList(m)
+        infoAdapter.notifyItemRangeChanged(0, members.size)
     }
 
     private suspend fun addToList(guild: GuildModel) {
@@ -191,10 +213,6 @@ class GuildFragment : Fragment(), GuildMemberAdapter.OnMemberClickListener {
 
     private fun progressBar(state: Boolean) {
         binding.progressBar4.visibility = if(state) View.VISIBLE else View.GONE
-    }
-
-    override fun guildMemberClick(position: Int) {
-        Log.d("Test", "Clicked: $position")
     }
 
     companion object {

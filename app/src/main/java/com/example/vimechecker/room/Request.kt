@@ -14,3 +14,7 @@ data class Request (
     @ColumnInfo(name = "level") val level: Int?,
     @ColumnInfo(name = "type") val type: String?
 )
+
+
+
+

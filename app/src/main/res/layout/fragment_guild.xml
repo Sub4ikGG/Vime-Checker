@@ -41,26 +41,25 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:orientation="vertical" android:visibility="visible">
+        android:layout_height="match_parent" android:orientation="vertical" android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/members_info_box"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp" android:background="@drawable/box"
-            android:padding="3dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/members_box">
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/members_box">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/members_info_rcVIew"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
+                android:paddingStart="4dp" android:paddingTop="4dp"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-                app:reverseLayout="false" tools:itemCount="1"
-                tools:listitem="@layout/guild_player_info"/>
+                app:reverseLayout="false" tools:itemCount="1" tools:listitem="@layout/guild_player_info"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_box_layout"
@@ -201,8 +200,8 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/box"
             android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/members_info_box">
+            android:visibility="gone" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/members_info_box">
 
             <TextView
                 android:id="@+id/quote_textView"

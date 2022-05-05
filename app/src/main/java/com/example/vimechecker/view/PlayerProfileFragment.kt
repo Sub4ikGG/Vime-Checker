@@ -56,14 +56,11 @@ class PlayerProfileFragment : Fragment() {
     private var guildOpened = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //val viewModelFactory = PlayerProfileViewModelFactory()
-        viewModel = ViewModelProvider(this)[PlayerProfileViewModel::class.java]
+        viewModel = ViewModelProvider(this)[PlayerProfileViewModel::class.java] /*Создаем ViewModel*/
         mRequestViewModel = ViewModelProvider(this)[RequestViewModel::class.java]
         friendsAdapter = FriendsAdapter(this, findNavController())
         sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         db = AppDatabase.getDatabase(context!!).requestDao()
-
 
         super.onCreate(savedInstanceState)
     }
@@ -83,7 +80,7 @@ class PlayerProfileFragment : Fragment() {
 
     private fun checkStatement(savedInstanceState: Bundle?) {
         val nickname = arguments?.getString(NICKNAME, null)
-        val tokenNickname = sharedPref.getString("TOKEN-NICKNAME", null)
+        val tokenNickname = sharedPref.getString("TOKEN-NICKNAME", null) /*Попытка получения токена из хранилища, иначе null*/
 
         if (savedInstanceState == null && requests == 0) {
             scope.launch { runLogic(selectNotNull(nickname, tokenNickname)) }
