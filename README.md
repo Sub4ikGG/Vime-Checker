@@ -1,6 +1,6 @@
 # Vime-Checker
 
-Project: VimeWorld Minecraft
+Project: VimeWorld Minecraft\n
 Check player profiles, guilds, statistics of project.
 
 ![изображение](https://user-images.githubusercontent.com/98654420/172446994-72452a32-b1ed-4e3b-ba2f-a72c58210378.png)
